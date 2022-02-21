@@ -1,5 +1,7 @@
 #include "elevator.h"
+#include <stdio.h>
 #include <time.h>
+#include "driver/elevio.h"
 
 
 
@@ -51,18 +53,17 @@ void elevatorInit(Elevator* p_elevator){
     
     p_elevator->currentFloor=getFloor();
 
-    while(p_elevator->currentFloor!=-1){
+    while(p_elevator->currentFloor==-1){
         setElevatorDirection(DIRN_UP);
-        int floor = getFloor();
-        printf("floor: %d \n",floor);
-
+        p_elevator->currentFloor=getFloor();
+      
         nanosleep(&(struct timespec){0, 20*1000*1000}, NULL);
     }
    
     setElevatorDirection(DIRN_STOP);
+
     p_elevator->currentFloor=getFloor();
     setFloorLamp(p_elevator->currentFloor);
     printf("Current floor is %d", p_elevator->currentFloor);
     return;
- 
 }

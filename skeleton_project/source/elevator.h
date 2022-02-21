@@ -22,6 +22,11 @@ typedef struct
 
 }Elevator;
 
+/**
+ * @brief Initialiser the elevator
+ * 
+ * @param p_elevator 
+ */
 void elevatorInit(Elevator* p_elevator);
 
 /**
