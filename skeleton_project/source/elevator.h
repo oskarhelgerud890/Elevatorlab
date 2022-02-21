@@ -1,7 +1,7 @@
 #ifndef ELEVATOR_H
 #define ELEVATOR_H
 
-#include "elevio.h"
+#include "driver/elevio.h"
 
 #define NUM_DIRECTIONS 2
 #define TOT_NUM_LIGHTS 16

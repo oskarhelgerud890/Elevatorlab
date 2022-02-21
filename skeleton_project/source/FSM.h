@@ -2,7 +2,7 @@
  * @brief FSM module. states,cases for each state 
  * 
  */
-#ifndef FSM__H
+#ifndef FSM_H
 #define FSM_H
 
 #include "elevator.h"
