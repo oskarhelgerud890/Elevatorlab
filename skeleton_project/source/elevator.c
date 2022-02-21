@@ -1,4 +1,4 @@
-
+#include "elevator.h"
 
 /**
 * @brief Set elevator direction. Wrapper function for

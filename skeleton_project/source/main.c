@@ -4,6 +4,8 @@
 #include <time.h>
 #include "driver/elevio.h"
 
+#include "FSM.h"
+
 
 
 int main(){
