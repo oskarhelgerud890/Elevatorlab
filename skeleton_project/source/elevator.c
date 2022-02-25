@@ -67,3 +67,13 @@ void elevatorInit(Elevator* p_elevator){
     printf("Current floor is %d", p_elevator->currentFloor);
     return;
 }
+
+void clearOrders(Elevator *p_elevator)
+{
+    for(int i=0;i<NUM_ORDER_BUTTONS;i++){
+        for(int j=0; j<NUM_DIRECTIONS; j++){
+            p_elevator->OrderArray[i][j]=0;
+        }
+    }
+    return;
+}

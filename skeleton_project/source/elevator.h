@@ -6,6 +6,12 @@
 #define NUM_DIRECTIONS 2
 #define TOT_NUM_LIGHTS 16
 #define NUM_ORDER_BUTTONS 8
+#define ON 1
+#define OFF 0
+#define UP 1
+#define DOWN -1
+#define STOP 0
+#define BETWEEN -1
 
 typedef struct
 {
@@ -109,8 +115,10 @@ void checkObstructionButton(void);
 
 int chooseDirection(Elevator p_elevator);
 
+void clearOrders(Elevator *p_elevator);
+
 
 #endif // ELEVATOR_H
 
 
-//"Hello"
+
