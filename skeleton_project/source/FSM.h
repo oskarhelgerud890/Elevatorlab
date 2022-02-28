@@ -7,14 +7,6 @@
 
 #include "elevator.h"
 
-#define ON 1
-#define OFF 0
-#define UP 1
-#define DOWN -1
-
-#define STOP 0
-#define BETWEEN -1
-
 /**
  * @brief Enum for the different possible states of the elevator.
  */
@@ -24,11 +16,19 @@ typedef enum{
     EMERGENCY = 2,
 }State;
 
+typedef struct
+{
+    Elevator *p_elevator;
+    State currentState;
+    //timer
+
+}FSM;
+
 /**
  * @brief switch containing each case/state of the elevator
  * 
  */
-void FSMSwitch(State currentState, Elevator *p_elevator);
+void FSMSwitch(FSM *fsm);
 
 
 #endif // FSM_H

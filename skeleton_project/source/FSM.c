@@ -5,20 +5,38 @@
  * 
  */
 
-void FSMSwitch(State currentState, Elevator *p_elevator){
-    switch (currentState){
+void FSMSwitch(FSM *fsm){
+    switch (fsm->currentState){
     case IDLE:
 
         if(getStopButton){
-            currentState = EMERGENCY;
+            fsm->currentState = EMERGENCY;
             break;
         }
-
-        
 
         break;
     
     case MOVING:
+        if(getStopButton==ON){
+            fsm->currentState=EMERGENCY;
+            setElevatorDirection(DIRN_STOP);
+            break;
+        }
+
+        updateorderArray(fsm->p_elevator);
+
+        if(getFloor()!=BETWEEN){
+            fsm->p_elevator->currentFloor=getFloor();
+        }
+
+        setFloorLamp(fsm->p_elevator->currentFloor);
+
+        if(shouldStop(fsm->p_elevator)==1){
+            setElevatorDirection(DIRN_STOP);
+            fsm->currentState=IDLE;
+            break;
+        }
+
         break;
     
     case EMERGENCY:
@@ -34,18 +52,18 @@ void FSMSwitch(State currentState, Elevator *p_elevator){
         }
 
         //clear orders function
-        clearOrders(p_elevator);
+        clearOrders(fsm->p_elevator);
 
         //Check if clicked
         if(getStopButton()==OFF){
             setStopLamp(OFF);
-            currentState=IDLE;
+            fsm->currentState=IDLE;
             break;
         }
         break;
     
     default:
-        currentState=IDLE;
+        fsm->currentState=IDLE;
         break;
     }
 }
