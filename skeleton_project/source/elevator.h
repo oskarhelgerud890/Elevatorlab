@@ -112,6 +112,10 @@ int chooseDirection(Elevator p_elevator);
 
 void clearOrders(Elevator *p_elevator);
 
+void updateOrderArray(Elevator *p_elevator);
+
+int 
+
 
 #endif // ELEVATOR_H
 

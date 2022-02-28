@@ -57,7 +57,7 @@ void elevatorInit(Elevator* p_elevator){
         setElevatorDirection(DIRN_UP);
         p_elevator->currentFloor=getFloor();
       
-        nanosleep(&(struct timespec){0, 20*1000*1000}, NULL);
+       // nanosleep(&(struct timespec){0, 20*1000*1000}, NULL);
     }
    
     setElevatorDirection(DIRN_STOP);
@@ -74,6 +74,22 @@ void clearOrders(Elevator *p_elevator)
         for(int j=0; j<NUM_DIRECTIONS; j++){
             p_elevator->OrderArray[i][j]=0;
         }
+    }
+    return;
+}
+
+void updateOrderArray(Elevator *p_elevator){
+    for(int i=0;i<NUM_ORDER_BUTTONS;i++){
+
+        if(i<4){
+            p_elevator->OrderArray[i][0]=getOrderButton(i,BUTTON_CAB);
+            p_elevator->OrderArray[i][1]=getOrderButton(i,BUTTON_CAB);
+        }
+        else{
+            p_elevator->OrderArray[i][0]=getOrderButton(i-4,BUTTON_HALL_DOWN);
+            p_elevator->OrderArray[i][1]=getOrderButton(i-4, BUTTON_HALL_UP);
+        }
+    
     }
     return;
 }
