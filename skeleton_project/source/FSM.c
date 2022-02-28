@@ -16,7 +16,7 @@ void FSMSwitch(State currentState, Elevator *p_elevator){
     
     case EMERGENCY:
         //Turn on light
-        setStopButton(ON);
+        setStopLamp(ON);
 
         //Stop motor
         setElevatorDirection(STOP);
@@ -34,7 +34,7 @@ void FSMSwitch(State currentState, Elevator *p_elevator){
 
         //Check if clicked
         if(getStopButton()==OFF){
-            setStopButton(OFF);
+            setStopLamp(OFF);
            
             //Check if it is on floor, then timer for door
              if(getFloor()!=BETWEEN){

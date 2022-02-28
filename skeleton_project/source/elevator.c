@@ -12,7 +12,7 @@ void setElevatorDirection(MotorDirection dir) {
     return;
 }
 
-void setButtonLamp(int floor, ButtonType button, int value){
+void setOrderButtonLamp(int floor, ButtonType button, int value){
     elevio_buttonLamp(floor, button, value);
     return;
 }
@@ -27,12 +27,12 @@ void setDoorOpenLamp(int value){
     return;
 }
 
-void setStopButton(int value){
+void setStopLamp(int value){
     elevio_stopLamp(value);
     return;
 }
 
-int getOrderButtons(int floor, ButtonType button){
+int getOrderButton(int floor, ButtonType button){
     return elevio_callButton(floor, button);  
 }
 

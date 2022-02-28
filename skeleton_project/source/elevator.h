@@ -6,12 +6,7 @@
 #define NUM_DIRECTIONS 2
 #define TOT_NUM_LIGHTS 16
 #define NUM_ORDER_BUTTONS 8
-#define ON 1
-#define OFF 0
-#define UP 1
-#define DOWN -1
-#define STOP 0
-#define BETWEEN -1
+
 
 typedef struct
 {
@@ -48,13 +43,13 @@ void elevatorInit(Elevator* p_elevator);
 void setElevatorDirection(MotorDirection dir);
 
 /**
- * @brief Set a choosen button lamp
+ * @brief Set a chosen order button lamp
  * 
  * @param floor 
  * @param button 
  * @param value 
  */
-void setButtonLamp(int floor, ButtonType button, int value);
+void setOrderButtonLamp(int floor, ButtonType button, int value);
 
 /**
  * @brief Set a choosen floor lamp
@@ -75,7 +70,7 @@ void setDoorOpenLamp(int value);
  * 
  * @param value 
  */
-void setStopButton(int value);
+void setStopLamp(int value);
 
 /**
  * @brief Get the value of a choosen button
@@ -84,7 +79,7 @@ void setStopButton(int value);
  * @param button 
  * @return value of button, int
  */
-int getOrderButtons(int floor, ButtonType button);
+int getOrderButton(int floor, ButtonType button);
 
 /**
  * @brief Get the current floor
