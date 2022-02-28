@@ -6,11 +6,18 @@
 #define NUM_DIRECTIONS 2
 #define TOT_NUM_LIGHTS 16
 #define NUM_ORDER_BUTTONS 8
+#define ON 1
+#define OFF 0
+#define UP 1
+#define DOWN -1
+#define STOP 0
+#define BETWEEN -1
+#define NUM_FLOORS 4
 
 
 typedef struct
 {
-    int OrderArray[NUM_ORDER_BUTTONS][NUM_DIRECTIONS];
+    int orderArray[NUM_ORDER_BUTTONS][NUM_DIRECTIONS];
     int lightArray[TOT_NUM_LIGHTS];
 
     int stopButton;
@@ -18,8 +25,8 @@ typedef struct
     int obstructionButton;
 
     int currentFloor;
-    int currentDirection;
-    int lastDirection;
+    MotorDirection currentDirection;
+
 
 }Elevator;
 
@@ -72,17 +79,7 @@ void setDoorOpenLamp(int value);
  */
 void setStopLamp(int value);
 
-/**
- * @brief Get the value of a choosen button
- * 
- * @param floor 
- * @param button 
- * @return value of button, int
- */
-int getOrderButton(int floor, ButtonType button);
-
-/**
- * @brief Get the current floor
+/**void checkStopButton(void);rief Get the current floor
  * 
  * @return Current floor, int
  */
@@ -105,16 +102,15 @@ int getObstructionButton(void);
 
 //Button Functions
 void updateOrders(Elevator *p_elevator);
-void checkStopButton(void);
 void checkObstructionButton(void);
 
 int chooseDirection(Elevator p_elevator);
 
 void clearOrders(Elevator *p_elevator);
 
-void updateOrderArray(Elevator *p_elevator);
+void updateorderArray(Elevator *p_elevator);
 
-int 
+int shouldStop(Elevator *p_elevator);
 
 
 #endif // ELEVATOR_H

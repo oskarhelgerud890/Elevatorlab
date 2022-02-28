@@ -48,6 +48,16 @@ int getObstructionButton(void){
     return elevio_obstruction();
 }
 
+void clearOrders(Elevator *p_elevator)
+{
+    for(int i=0;i<NUM_ORDER_BUTTONS;i++){
+        for(int j=0; j<NUM_DIRECTIONS; j++){
+            p_elevator->orderArray[i][j]=0;
+        }
+    }
+    return;
+}
+
 //Init-function
 void elevatorInit(Elevator* p_elevator){
     
@@ -65,31 +75,40 @@ void elevatorInit(Elevator* p_elevator){
     p_elevator->currentFloor=getFloor();
     setFloorLamp(p_elevator->currentFloor);
     printf("Current floor is %d", p_elevator->currentFloor);
+    clearOrders(p_elevator);
+    setStopLamp(OFF);
+    setDoorOpenLamp(OFF);
     return;
 }
 
-void clearOrders(Elevator *p_elevator)
-{
-    for(int i=0;i<NUM_ORDER_BUTTONS;i++){
-        for(int j=0; j<NUM_DIRECTIONS; j++){
-            p_elevator->OrderArray[i][j]=0;
-        }
-    }
-    return;
-}
 
-void updateOrderArray(Elevator *p_elevator){
+
+void updateorderArray(Elevator *p_elevator){
     for(int i=0;i<NUM_ORDER_BUTTONS;i++){
 
         if(i<4){
-            p_elevator->OrderArray[i][0]=getOrderButton(i,BUTTON_CAB);
-            p_elevator->OrderArray[i][1]=getOrderButton(i,BUTTON_CAB);
+            p_elevator->orderArray[i][0]=getOrderButton(i,BUTTON_CAB);
+            p_elevator->orderArray[i][1]=getOrderButton(i,BUTTON_CAB);
         }
         else{
-            p_elevator->OrderArray[i][0]=getOrderButton(i-4,BUTTON_HALL_DOWN);
-            p_elevator->OrderArray[i][1]=getOrderButton(i-4, BUTTON_HALL_UP);
+            p_elevator->orderArray[i][0]=getOrderButton(i-4,BUTTON_HALL_DOWN);
+            p_elevator->orderArray[i][1]=getOrderButton(i-4, BUTTON_HALL_UP);
         }
     
     }
     return;
+}
+
+int shouldStop(Elevator *p_elevator){
+
+    if(p_elevator->orderArray[p_elevator->currentFloor][0]==1){
+        return 1;
+    }
+    else if(p_elevator->orderArray[p_elevator->currentFloor+4][0]==1 && p_elevator->currentDirection==DIRN_DOWN){
+        return 1;
+    }
+    else if(p_elevator->orderArray[p_elevator->currentFloor+4][1]==1 && p_elevator->currentDirection==DIRN_UP){
+        return 1;
+    }
+    return 0;
 }

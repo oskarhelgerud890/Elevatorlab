@@ -4,6 +4,7 @@
 #include <time.h>
 #include "driver/elevio.h"
 #include "elevator.h"
+#include "FSM.h"
 
 
 
@@ -13,11 +14,33 @@ int main(){
 
     elevio_init();
 
-    Elevator *elevator;
-    elevatorInit(elevator);
+    Elevator *p_elevator;
+    elevatorInit(p_elevator);
+    while(1){
+        setElevatorDirection(DIRN_UP);
+        while(getStopButton()==ON){
+            setStopLamp(ON);
 
-    
+            //Stop motor
+            setElevatorDirection(STOP);
 
+            //If at place, open door
+            if(getFloor()!=BETWEEN){
+                setDoorOpenLamp(ON);
+            }
+
+            //clear orders function
+            clearOrders(p_elevator);
+
+            //Check if clicked
+            if(getStopButton()==OFF){
+                setStopLamp(OFF);
+                //fsm->currentState=IDLE;
+                break;
+            }
+        }
+       
+    }
 
     return 0;
 }
