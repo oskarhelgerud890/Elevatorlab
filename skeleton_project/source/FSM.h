@@ -11,6 +11,7 @@
 #define OFF 0
 #define UP 1
 #define DOWN -1
+
 #define STOP 0
 #define BETWEEN -1
 
