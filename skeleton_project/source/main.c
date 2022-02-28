@@ -1,48 +1,43 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <signal.h>
-#include <time.h>
+#include "FSM.h"
 #include "driver/elevio.h"
 #include "elevator.h"
-#include "FSM.h"
+#include <signal.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
+int main() {
 
+  elevio_init();
 
+  Elevator *p_elevator;
+  elevatorInit(p_elevator);
+  while (1) {
+    setElevatorDirection(DIRN_UP);
+    while (getStopButton() == ON) {
+      setStopLamp(ON);
 
+      // Stop motor
+      setElevatorDirection(STOP);
 
-int main(){
+      // If at place, open door
+      if (getFloor() != BETWEEN) {
+        setDoorOpenLamp(ON);
+      }
 
-    elevio_init();
+      // clear orders function
+      clearOrders(p_elevator);
 
-    Elevator *p_elevator;
-    elevatorInit(p_elevator);
-    while(1){
-        setElevatorDirection(DIRN_UP);
-        while(getStopButton()==ON){
-            setStopLamp(ON);
-
-            //Stop motor
-            setElevatorDirection(STOP);
-
-            //If at place, open door
-            if(getFloor()!=BETWEEN){
-                setDoorOpenLamp(ON);
-            }
-
-            //clear orders function
-            clearOrders(p_elevator);
-
-            //Check if clicked
-            if(getStopButton()==OFF){
-                setStopLamp(OFF);
-                //fsm->currentState=IDLE;
-                break;
-            }
-        }
-       
+      // Check if clicked
+      if (getStopButton() == OFF) {
+        setStopLamp(OFF);
+        // fsm->currentState=IDLE;
+        break;
+      }
     }
+  }
 
-    return 0;
+  return 0;
 }
 
 /*
@@ -76,12 +71,12 @@ printf("=== Example Program ===\n");
         } else {
             elevio_stopLamp(0);
         }
-        
+
         if(elevio_stopButton()){
             elevio_motorDirection(DIRN_STOP);
             break;
         }
-        
+
         nanosleep(&(struct timespec){0, 20*1000*1000}, NULL);
     }
     */
