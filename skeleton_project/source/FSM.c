@@ -6,9 +6,16 @@
  */
 
 void FSMSwitch(State currentState, Elevator *p_elevator){
-    switch (currentState)
-    {
+    switch (currentState){
     case IDLE:
+
+        if(getStopButton){
+            currentState = EMERGENCY;
+            break;
+        }
+
+        
+
         break;
     
     case MOVING:
@@ -25,9 +32,6 @@ void FSMSwitch(State currentState, Elevator *p_elevator){
         if(getFloor()!=BETWEEN){
             setDoorOpenLamp(ON);
         }
-        else{
-            setDoorOpenLamp(OFF);
-        }
 
         //clear orders function
         clearOrders(p_elevator);
@@ -35,19 +39,13 @@ void FSMSwitch(State currentState, Elevator *p_elevator){
         //Check if clicked
         if(getStopButton()==OFF){
             setStopLamp(OFF);
-           
-            //Check if it is on floor, then timer for door
-             if(getFloor()!=BETWEEN){
-                //timer
-                setDoorOpenLamp(OFF);
-            }
-
             currentState=IDLE;
             break;
         }
         break;
     
     default:
+        currentState=IDLE;
         break;
     }
 }
