@@ -14,6 +14,13 @@
 #define BETWEEN -1
 #define NUM_FLOORS 4
 
+#define ORDER_UPWARDS 1
+#define ORDER_DOWNWARDS 1
+#define ACTIVE_ORDER 1
+#define NO_ORDERS 0
+#define DOWN_BUTTON 0
+#define UP_BUTTON 1
+
 
 typedef struct
 {
@@ -104,13 +111,18 @@ int getObstructionButton(void);
 void updateOrders(Elevator *p_elevator);
 void checkObstructionButton(void);
 
-int chooseDirection(Elevator p_elevator);
-
 void clearOrders(Elevator *p_elevator);
 
 void updateorderArray(Elevator *p_elevator);
 
 int shouldStop(Elevator *p_elevator);
+
+
+// choose direction stuff
+int shouldStop(Elevator *p_elevator);
+int orderUpwards(Elevator *p_elevator);
+int orderDownwards(Elevator *p_elevator);
+MotorDirection chooseDirection(Elevator *p_elevator);
 
 
 #endif // ELEVATOR_H

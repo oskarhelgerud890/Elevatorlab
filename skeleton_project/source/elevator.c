@@ -112,3 +112,45 @@ int shouldStop(Elevator *p_elevator){
     }
     return 0;
 }
+
+int orderUpwards(Elevator *p_elevator){
+    for(int i = 0; i< NUM_ORDER_BUTTONS; i++) {
+        if(p_elevator->orderArray[i][DOWN_BUTTON] == ACTIVE_ORDER) {
+            return ORDER_UPWARDS;
+        }
+    }
+
+    return NO_ORDERS;
+
+}
+
+
+int orderDownwards(Elevator *p_elevator){
+    for(int i = 0; i< NUM_ORDER_BUTTONS; i++) {
+        if(p_elevator->orderArray[i][UP_BUTTON] == ACTIVE_ORDER) {
+            return ORDER_DOWNWARDS;
+        }
+    }
+    
+    return NO_ORDERS;
+
+}
+
+
+
+MotorDirection chooseDirection(Elevator *p_elevator) {
+    updateOrderArray(p_elevator);
+
+    if(p_elevator->currentDirection == DIRN_DOWN && orderBelow(p_elevator)){ 
+        return DIRN_DOWN;
+    }
+
+    else if (p_elevator->currentDirection == DIRN_UP && orderAbove(p_elevator)) {
+        return DIRN_UP;
+    }
+
+    else {
+        return DIRN_STOP;
+    }
+
+}
