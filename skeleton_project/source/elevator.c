@@ -48,7 +48,7 @@ int getObstructionButton(void){
     return elevio_obstruction();
 }
 
-void clearOrders(Elevator *p_elevator)
+void clearOrdersAndOrderLights(Elevator *p_elevator)
 {
     for(int i=0;i<NUM_ORDER_BUTTONS;i++){
         for(int j=0; j<NUM_DIRECTIONS; j++){
@@ -78,19 +78,19 @@ void elevatorInit(Elevator* p_elevator){
     setStopLamp(OFF);
     setDoorOpenLamp(OFF);
     clearOrders(p_elevator);
+    updateOrderLights(p_elevator);
     return;
 }
 
 
 
-void updateOrderArrayAndCorrespondingLights(Elevator *p_elevator){
-    for(int buttonIndex = 0; buttonIndex <NUM_ORDER_BUTTONS; buttonIndex++){
+void updateOrderArray(Elevator *p_elevator){
+    for(int buttonIndex = 0; buttonIndex < NUM_ORDER_BUTTONS; buttonIndex++){
 
         if(buttonIndex<4){
             int isOrderCabin = getOrderButton(buttonIndex, BUTTON_CAB);
             p_elevator->orderArray[buttonIndex][DOWN_BUTTON] = isOrderCabin;
             p_elevator->orderArray[buttonIndex][UP_BUTTON] = isOrderCabin;
-            setOrderButtonLamp(buttonIndex, BUTTON_CAB, isOrderCabin);
 
         }
         else{
@@ -99,11 +99,27 @@ void updateOrderArrayAndCorrespondingLights(Elevator *p_elevator){
 
             p_elevator->orderArray[buttonIndex][DOWN_BUTTON] = isOrderDown;
             p_elevator->orderArray[buttonIndex][UP_BUTTON] = isOrderUp;
+        }
+    
+    }
+    return;
+}
+
+void updateOrderLights(Elevator *p_elevator) {
+    for(int buttonIndex = 0; buttonIndex < NUM_ORDER_BUTTONS; buttonIndex++) {
+        if(buttonIndex<4){
+            int isOrderCabin = getOrderButton(buttonIndex, BUTTON_CAB);
+            setOrderButtonLamp(buttonIndex, BUTTON_CAB, isOrderCabin);
+
+        }
+        else{
+            int isOrderDown = getOrderButton(buttonIndex-4,BUTTON_HALL_DOWN);
+            int isOrderUp = getOrderButton(buttonIndex-4, BUTTON_HALL_UP);
 
             setOrderButtonLamp(buttonIndex-4, BUTTON_HALL_DOWN, isOrderDown);
             setOrderButtonLamp(buttonIndex-4, BUTTON_HALL_UP, isOrderUp);
         }
-    
+
     }
     return;
 }

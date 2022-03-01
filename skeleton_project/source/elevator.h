@@ -108,12 +108,13 @@ int getObstructionButton(void);
 
 
 //Button Functions
-void updateOrders(Elevator *p_elevator);
 void checkObstructionButton(void);
 
-void clearOrders(Elevator *p_elevator);
+void clearOrdersAndOrderLights(Elevator *p_elevator);
 
-void updateorderArray(Elevator *p_elevator);
+void updateOrderArray(Elevator *p_elevator);
+
+void updateOrderLights(Elevator *p_elevator);
 
 int shouldStop(Elevator *p_elevator);
 
