@@ -73,11 +73,11 @@ void elevatorInit(Elevator* p_elevator){
     setElevatorDirection(DIRN_STOP);
 
     p_elevator->currentFloor=getFloor();
-    setFloorLamp(p_elevator->currentFloor);
     printf("Current floor is %d", p_elevator->currentFloor);
-    clearOrders(p_elevator);
+    setFloorLamp(p_elevator->currentFloor);
     setStopLamp(OFF);
     setDoorOpenLamp(OFF);
+    clearOrders(p_elevator);
     return;
 }
 
