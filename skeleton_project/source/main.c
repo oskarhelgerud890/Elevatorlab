@@ -31,6 +31,7 @@ int main(){
 
             //clear orders function
             clearOrders(p_elevator);
+            updateOrderLights(p_elevator);
 
             //Check if clicked
             if(getStopButton()==OFF){
