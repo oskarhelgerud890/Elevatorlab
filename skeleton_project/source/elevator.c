@@ -6,7 +6,7 @@
 
 
 
-//Elev_io functins
+// wrapper-functions for Elev_io functins
 void setElevatorDirection(MotorDirection dir) {
     elevio_motorDirection(dir);
     return;
@@ -83,21 +83,32 @@ void elevatorInit(Elevator* p_elevator){
 
 
 
-void updateorderArray(Elevator *p_elevator){
-    for(int i=0;i<NUM_ORDER_BUTTONS;i++){
+void updateOrderArrayAndCorrespondingLights(Elevator *p_elevator){
+    for(int buttonIndex = 0; buttonIndex <NUM_ORDER_BUTTONS; buttonIndex++){
 
-        if(i<4){
-            p_elevator->orderArray[i][0]=getOrderButton(i,BUTTON_CAB);
-            p_elevator->orderArray[i][1]=getOrderButton(i,BUTTON_CAB);
+        if(buttonIndex<4){
+            int isOrderCabin = getOrderButton(buttonIndex, BUTTON_CAB);
+            p_elevator->orderArray[buttonIndex][DOWN_BUTTON] = isOrderCabin;
+            p_elevator->orderArray[buttonIndex][UP_BUTTON] = isOrderCabin;
+            setOrderButtonLamp(buttonIndex, BUTTON_CAB, isOrderCabin);
+
         }
         else{
-            p_elevator->orderArray[i][0]=getOrderButton(i-4,BUTTON_HALL_DOWN);
-            p_elevator->orderArray[i][1]=getOrderButton(i-4, BUTTON_HALL_UP);
+            int isOrderDown = getOrderButton(buttonIndex-4,BUTTON_HALL_DOWN);
+            int isOrderUp = getOrderButton(buttonIndex-4, BUTTON_HALL_UP);
+
+            p_elevator->orderArray[buttonIndex][DOWN_BUTTON] = isOrderDown;
+            p_elevator->orderArray[buttonIndex][UP_BUTTON] = isOrderUp;
+
+            setOrderButtonLamp(buttonIndex-4, BUTTON_HALL_DOWN, isOrderDown);
+            setOrderButtonLamp(buttonIndex-4, BUTTON_HALL_UP, isOrderUp);
         }
     
     }
     return;
 }
+
+
 
 int shouldStop(Elevator *p_elevator){
 
