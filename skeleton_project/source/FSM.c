@@ -15,6 +15,9 @@ void FSMSwitch(FSM *fsm){
 
         if(checkTimer() == 0 && getObstructionButton == OFF){
             setDoorOpenLamp(OFF);
+            updateOrderArray(fsm->p_elevator);
+            updateOrderLights(fsm->p_elevator);
+            // Sett etasjelys ??
             MotorDirection nextDirection = chooseDirection(fsm->p_elevator);
             setElevatorDirection(nextDirection);
             fsm->currentState = MOVING;
@@ -29,7 +32,8 @@ void FSMSwitch(FSM *fsm){
             break;
         }
 
-        updateOrderArrayAndCorrespondingLights(fsm->p_elevator);
+        updateOrderArray(fsm->p_elevator);
+        updateOrderLights(fsm->p_elevator);
 
         if(getFloor()!=BETWEEN){
             fsm->p_elevator->currentFloor=getFloor();
@@ -63,6 +67,7 @@ void FSMSwitch(FSM *fsm){
         if(getStopButton()==OFF){
             setStopLamp(OFF);
             clearOrders(fsm->p_elevator);   // clear orders function
+            updateOrderLights(fsm->p_elevator);
             //setTimer();
             fsm->currentState=IDLE;
             break;
