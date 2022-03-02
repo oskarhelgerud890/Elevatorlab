@@ -5,7 +5,7 @@ void setTimer(Timer *timer) {
     return;
 }
 
-int checkTimer(Timer *timer) {
+int isTimeOut(Timer *timer) {
     clock_t newClockTicksElapsed = clock();
     float secondsElapsed = (newClockTicksElapsed - timer->clockTicksElapsed)/CLOCKS_PER_SEC;
 

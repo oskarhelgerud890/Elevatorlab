@@ -17,7 +17,7 @@ typedef struct
 
 void setTimer();
 
-int checkTimer();
+int isTimeOut();
 
 
 #endif // TIMER_H
