@@ -168,11 +168,11 @@ int orderDownwards(Elevator *p_elevator){
 MotorDirection chooseDirection(Elevator *p_elevator) {
     updateOrderArray(p_elevator);
 
-    if(p_elevator->currentDirection == DIRN_DOWN && orderBelow(p_elevator)){ 
+    if(p_elevator->currentDirection == DIRN_DOWN && orderDownwards(p_elevator)){ 
         return DIRN_DOWN;
     }
 
-    else if (p_elevator->currentDirection == DIRN_UP && orderAbove(p_elevator)) {
+    else if (p_elevator->currentDirection == DIRN_UP && orderUpwards(p_elevator)) {
         return DIRN_UP;
     }
 
