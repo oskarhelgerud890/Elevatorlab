@@ -13,7 +13,7 @@ void FSMSwitch(FSM *fsm){
             break;
         }
 
-        if(checkTimer() == 0 && getObstructionButton == OFF){
+        if(timeOut() == 0 && getObstructionButton == OFF){
             setDoorOpenLamp(OFF);
             updateOrderArray(fsm->p_elevator);
             updateOrderLights(fsm->p_elevator);

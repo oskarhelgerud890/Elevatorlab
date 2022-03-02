@@ -4,6 +4,6 @@
 
 void setTimer();
 
-int CheckTimer();
+int timeOut();
 
 
