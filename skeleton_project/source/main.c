@@ -5,7 +5,7 @@
 #include "driver/elevio.h"
 #include "elevator.h"
 #include "FSM.h"
-
+#include "timer.h"
 
 
 
@@ -13,36 +13,19 @@
 int main(){
 
     elevio_init();
-
-    Elevator *p_elevator;
+    
+    Elevator *p_elevator=malloc(sizeof(Elevator));
+    FSM *p_fsm=malloc(sizeof(FSM));
+   
     elevatorInit(p_elevator);
+        
+    
     while(1){
-        setElevatorDirection(DIRN_UP);
-        while(getStopButton()==ON){
-            setStopLamp(ON);
-
-            //Stop motor
-            setElevatorDirection(STOP);
-
-            //If at place, open door
-            if(getFloor()!=BETWEEN){
-                setDoorOpenLamp(ON);
-            }
-
-            //clear orders function
-            clearOrders(p_elevator);
-            updateOrderLights(p_elevator);
-
-            //Check if clicked
-            if(getStopButton()==OFF){
-                setStopLamp(OFF);
-                //fsm->currentState=IDLE;
-                break;
-            }
-        }
-       
+        FSMSwitch(p_fsm, p_elevator);
     }
-
+    
+    free(p_elevator);
+    free(p_fsm);
     return 0;
 }
 
@@ -54,9 +37,7 @@ printf("=== Example Program ===\n");
 
     while(1){
         int floor = elevio_floorSensor();
-        printf("floor: %d \n",floor);
-
-        if(floor == 0){
+        printf("floor: %d \n",floor);while(1)
             elevio_motorDirection(DIRN_UP);
         }
 

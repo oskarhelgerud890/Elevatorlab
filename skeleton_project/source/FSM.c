@@ -5,46 +5,57 @@
  * 
  */
 
-void FSMSwitch(FSM *fsm){
+void FSMSwitch(FSM *fsm, Elevator *p_elevator){
     switch (fsm->currentState){
     case IDLE:
-        if(getStopButton){
+        if(getStopButton()){
             fsm->currentState = EMERGENCY;
             break;
         }
+        
 
-        if(isTimeOut() == 0 && getObstructionButton == OFF){
+        updateOrderArray(p_elevator);
+        updateOrderLights(p_elevator);
+
+        if(getObstructionButton() == OFF){
             setDoorOpenLamp(OFF);
-            updateOrderArray(fsm->p_elevator);
-            updateOrderLights(fsm->p_elevator);
-            // Sett etasjelys ??
-            MotorDirection nextDirection = chooseDirection(fsm->p_elevator);
-            setElevatorDirection(nextDirection);
-            fsm->currentState = MOVING;
+            MotorDirection nextDirection = chooseDirection(p_elevator);
+            p_elevator->lastDirection = p_elevator->currentDirection;
+            p_elevator->currentDirection=nextDirection;
+
+            
+            if(p_elevator->currentDirection!=DIRN_STOP){
+                fsm->currentState = MOVING;
+            }
+            printf("Outside func: %d\n",p_elevator->currentDirection);
         }
 
         break;
     
     case MOVING:
-        if(getStopButton==ON){
+        if(getStopButton()==ON){
             setElevatorDirection(DIRN_STOP);
             fsm->currentState=EMERGENCY;
             break;
         }
-
-        updateOrderArray(fsm->p_elevator);
-        updateOrderLights(fsm->p_elevator);
+        setElevatorDirection(p_elevator->currentDirection);
+        updateOrderArray(p_elevator);
+        updateOrderLights(p_elevator);
 
         if(getFloor()!=BETWEEN){
-            fsm->p_elevator->currentFloor=getFloor();
+            p_elevator->currentFloor=getFloor();
         }
 
-        setFloorLamp(fsm->p_elevator->currentFloor);
+        setFloorLamp(p_elevator->currentFloor);
 
-        if(shouldStop(fsm->p_elevator)==1){
+        if(shouldStop(p_elevator)==1){
             setElevatorDirection(DIRN_STOP);
+            p_elevator->currentDirection=DIRN_STOP;
+
             setDoorOpenLamp(ON);
             // setTimer();
+            //clear orders on floor
+            updateOrderLights(p_elevator);
             fsm->currentState=IDLE;
             break;
         }
@@ -58,6 +69,11 @@ void FSMSwitch(FSM *fsm){
         //Stop motor
         setElevatorDirection(STOP);
 
+        clearOrders(p_elevator);   // clear orders function
+
+    
+        updateOrderLights(p_elevator);
+
         //If at floor, open door
         if(getFloor()!=BETWEEN){
             setDoorOpenLamp(ON);
@@ -66,8 +82,6 @@ void FSMSwitch(FSM *fsm){
         //Check if clicked
         if(getStopButton()==OFF){
             setStopLamp(OFF);
-            clearOrders(fsm->p_elevator);   // clear orders function
-            updateOrderLights(fsm->p_elevator);
             //setTimer();
             fsm->currentState=IDLE;
             break;

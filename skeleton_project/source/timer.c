@@ -7,9 +7,9 @@ void setTimer(Timer *timer) {
 
 int isTimeOut(Timer *timer) {
     clock_t newClockTicksElapsed = clock();
-    float secondsElapsed = (newClockTicksElapsed - timer->clockTicksElapsed)/CLOCKS_PER_SEC;
+    int secondsElapsed = (newClockTicksElapsed - timer->clockTicksElapsed)*1000/CLOCKS_PER_SEC;
 
-    if(secondsElapsed == TIME_TO_ELAPSE) {
+    if(secondsElapsed >= TIME_TO_ELAPSE) {
         return TIME_IS_OUT;
     }
     

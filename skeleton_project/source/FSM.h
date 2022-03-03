@@ -6,6 +6,7 @@
 #define FSM_H
 
 #include "elevator.h"
+#include "timer.h"
 
 /**
  * @brief Enum for the different possible states of the elevator.
@@ -18,8 +19,10 @@ typedef enum{
 
 typedef struct
 {
-    Elevator *p_elevator;
+    //Elevator *p_elevator;
     State currentState;
+    Timer *p_timer;
+
     //timer
 
 }FSM;
@@ -28,7 +31,7 @@ typedef struct
  * @brief switch containing each case/state of the elevator
  * 
  */
-void FSMSwitch(FSM *fsm);
+void FSMSwitch(FSM *fsm, Elevator *p_elevator);
 
 
 #endif // FSM_H
