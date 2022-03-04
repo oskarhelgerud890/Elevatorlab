@@ -1,21 +1,15 @@
 #include "timer.h"
 
-void setTimer(Timer *timer) {
-    timer->clockTicksElapsed = clock();
+void setTimer() {
+
+    timer=time(NULL);
     return;
 }
 
-int isTimeOut(Timer *timer) {
-    clock_t newClockTicksElapsed = clock();
-    int secondsElapsed = (newClockTicksElapsed - timer->clockTicksElapsed)*1000/CLOCKS_PER_SEC;
-
-    if(secondsElapsed >= TIME_TO_ELAPSE) {
-        return TIME_IS_OUT;
+int checkTimer(double timeToElapse) {
+    double timeElapsed = difftime(time(NULL), timer);
+    if(timeElapsed >= timeToElapse) {
+        return TIME_OUT;
     }
-    
-    else {
-        return TIME_IS_NOT_OUT;
-
-    }
-    
+    return TIME_NOT_OUT;
 }

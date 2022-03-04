@@ -21,17 +21,14 @@ typedef struct
 {
     //Elevator *p_elevator;
     State currentState;
-    Timer *p_timer;
-
-    //timer
-
+    //Timer *p_timer;
 }FSM;
 
 /**
  * @brief switch containing each case/state of the elevator
  * 
  */
-void FSMSwitch(FSM *fsm, Elevator *p_elevator);
+void FSMSwitch(FSM *p_fsm, Elevator *p_elevator);
 
 
 #endif // FSM_H

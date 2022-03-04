@@ -5,19 +5,15 @@
 
 
 #define TIME_TO_ELAPSE 3
-#define TIME_IS_OUT 1
-#define TIME_IS_NOT_OUT 0
+#define TIME_OUT 1
+#define TIME_NOT_OUT 0
 
-typedef struct
-{
-    clock_t clockTicksElapsed;
-
-}Timer;
+time_t timer;
 
 
-void setTimer(Timer *timer);
+void setTimer();
 
-int isTimeOut(Timer *timer);
+int checkTimer(double timeToElapse);
 
 
 #endif // TIMER_H

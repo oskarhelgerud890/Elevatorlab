@@ -5,11 +5,11 @@
  * 
  */
 
-void FSMSwitch(FSM *fsm, Elevator *p_elevator){
-    switch (fsm->currentState){
+void FSMSwitch(FSM *p_fsm, Elevator *p_elevator){
+    switch (p_fsm->currentState){
     case IDLE:
         if(getStopButton()){
-            fsm->currentState = EMERGENCY;
+            p_fsm->currentState = EMERGENCY;
             break;
         }
         
@@ -25,17 +25,18 @@ void FSMSwitch(FSM *fsm, Elevator *p_elevator){
 
             
             if(p_elevator->currentDirection!=DIRN_STOP){
-                fsm->currentState = MOVING;
+                p_fsm->currentState = MOVING;
             }
-            printf("Outside func: %d\n",p_elevator->currentDirection);
+            
         }
 
         break;
     
     case MOVING:
+    
         if(getStopButton()==ON){
             setElevatorDirection(DIRN_STOP);
-            fsm->currentState=EMERGENCY;
+            p_fsm->currentState=EMERGENCY;
             break;
         }
         setElevatorDirection(p_elevator->currentDirection);
@@ -44,20 +45,22 @@ void FSMSwitch(FSM *fsm, Elevator *p_elevator){
 
         if(getFloor()!=BETWEEN){
             p_elevator->currentFloor=getFloor();
-        }
+        
 
-        setFloorLamp(p_elevator->currentFloor);
+            setFloorLamp(p_elevator->currentFloor);
 
-        if(shouldStop(p_elevator)==1){
-            setElevatorDirection(DIRN_STOP);
-            p_elevator->currentDirection=DIRN_STOP;
+            if(shouldStop(p_elevator)==STOP){
+                setElevatorDirection(DIRN_STOP);
+                p_elevator->lastDirection=p_elevator->currentDirection;
+                p_elevator->currentDirection=DIRN_STOP;
 
-            setDoorOpenLamp(ON);
-            // setTimer();
-            //clear orders on floor
-            updateOrderLights(p_elevator);
-            fsm->currentState=IDLE;
-            break;
+                setDoorOpenLamp(ON);
+                //setTimer();
+                clearOrdersOnFloor(p_elevator);
+                updateOrderLights(p_elevator);
+                p_fsm->currentState=IDLE;
+                break;
+            }
         }
 
         break;
@@ -83,13 +86,13 @@ void FSMSwitch(FSM *fsm, Elevator *p_elevator){
         if(getStopButton()==OFF){
             setStopLamp(OFF);
             //setTimer();
-            fsm->currentState=IDLE;
+            p_fsm->currentState=IDLE;
             break;
         }
         break;
     
     default:
-        fsm->currentState=IDLE;
+        p_fsm->currentState=IDLE;
         break;
     }
 }

@@ -11,16 +11,10 @@
 #define UP 1
 #define DOWN -1
 #define STOP 0
+#define DONT_STOP 1
 #define BETWEEN -1
 #define NUM_FLOORS 4
 
-#define ORDER_UP_ABOVE 1
-#define ORDER_UP_BELOW 2
-#define ORDER_DOWN_ABOVE 3
-#define ORDER_DOWN_BELOW 4
-
-#define ORDER_UPWARDS 1
-#define ORDER_DOWNWARDS 1
 #define ACTIVE_ORDER 1
 #define NO_ORDERS 0
 #define DOWN_BUTTON 0
@@ -126,9 +120,10 @@ int shouldStop(Elevator *p_elevator);
 
 // choose direction stuff
 int shouldStop(Elevator *p_elevator);
-int orderUpwards(Elevator *p_elevator);
-int orderDownwards(Elevator *p_elevator);
+int orderAbove(Elevator *p_elevator);
+int orderBelow(Elevator *p_elevator);
 MotorDirection chooseDirection(Elevator *p_elevator);
+void clearOrdersOnFloor(Elevator *p_elevator);
 
 void printArray(Elevator *p_elevator);
 

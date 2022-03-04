@@ -16,7 +16,8 @@ int main(){
     
     Elevator *p_elevator=malloc(sizeof(Elevator));
     FSM *p_fsm=malloc(sizeof(FSM));
-   
+
+    //setTimer();
     elevatorInit(p_elevator);
         
     
@@ -65,5 +66,5 @@ printf("=== Example Program ===\n");
         }
         
         nanosleep(&(struct timespec){0, 20*1000*1000}, NULL);
-    }
-    */
+    }*/
+    
