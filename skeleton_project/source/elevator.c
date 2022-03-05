@@ -80,7 +80,11 @@ void elevatorInit(Elevator *p_elevator){
     setDoorOpenLamp(OFF);
     clearOrders(p_elevator);
     updateOrderLights(p_elevator);
+    p_elevator->currentObstructionValue=OFF;
+    p_elevator->lastObstructionValue=OFF;
     p_elevator->currentDirection=DIRN_STOP;
+    p_elevator->lastDirection = DIRN_STOP;
+    p_elevator->doorOpen = OFF;
 
     return;
 }
@@ -147,13 +151,15 @@ void updateOrderLights(Elevator *p_elevator) {
 
 
 int orderAbove(Elevator *p_elevator){
-    for(int i =p_elevator->currentFloor; i< NUM_FLOORS; i++) {
+    
+
+    for(int i =p_elevator->currentFloor+1; i< NUM_FLOORS; i++) {
         if(p_elevator->orderArray[i][UP_BUTTON] == ACTIVE_ORDER || p_elevator->orderArray[i][DOWN_BUTTON] == ACTIVE_ORDER) {
             return ACTIVE_ORDER;
         }
     }
 
-    for(int i=p_elevator->currentFloor+4; i<NUM_ORDER_BUTTONS; i++) {
+    for(int i=p_elevator->currentFloor+5; i<NUM_ORDER_BUTTONS; i++) {
         if(p_elevator->orderArray[i][UP_BUTTON] == ACTIVE_ORDER || p_elevator->orderArray[i][DOWN_BUTTON] == ACTIVE_ORDER) {
             return ACTIVE_ORDER;
         }
@@ -180,6 +186,18 @@ int orderBelow(Elevator *p_elevator){
     return NO_ORDERS;
 }
 
+int orderOnCurrentFloor(Elevator *p_elevator){
+    int cabinButton = p_elevator->orderArray[p_elevator->currentFloor][UP_BUTTON];
+    int hallUpButton = p_elevator->orderArray[p_elevator->currentFloor+4][UP_BUTTON];
+    int hallDownButton = p_elevator->orderArray[p_elevator->currentFloor+4][DOWN_BUTTON];
+
+    if((cabinButton || hallDownButton || hallUpButton) == ACTIVE_ORDER) {
+        return ACTIVE_ORDER;
+    }
+
+    return NO_ORDERS;
+}
+
 int shouldStop(Elevator *p_elevator){
 
     int currentDirection = p_elevator->currentDirection;
@@ -187,35 +205,36 @@ int shouldStop(Elevator *p_elevator){
     int LowerOrder = orderBelow(p_elevator);
     int HigherOrder = orderAbove(p_elevator);
 
-    if(currentFloor == 0 || currentFloor == 3) {
-        printf("STOPPING, too high/low");
-        return STOP;
-    }
+    // if(currentFloor == 0 || currentFloor == 3) {
+    //     printf("STOPPING, too high/low");
+    //     return STOP;
+    // }
+    int cabinButton = p_elevator->orderArray[currentFloor][UP_BUTTON];
+    int hallUpButton = p_elevator->orderArray[currentFloor+NUM_FLOORS][UP_BUTTON];
+    int hallDownButton = p_elevator->orderArray[currentFloor+NUM_FLOORS][DOWN_BUTTON];
+    int orderOnFloor = orderOnCurrentFloor(p_elevator);
 
 
     switch(currentDirection){
         case DIRN_UP:
-            if(p_elevator->orderArray[currentFloor][UP_BUTTON]==ON || p_elevator->orderArray[currentFloor+NUM_FLOORS][UP_BUTTON]==ON){
+            if((cabinButton==ON || hallUpButton==ON) || (hallDownButton == ON & HigherOrder == NO_ORDERS)){
                 printf("STOPPING 0");
                 return STOP;
             }
-            else if(p_elevator->orderArray[currentFloor][DOWN_BUTTON]==ON && HigherOrder==NO_ORDERS || p_elevator->orderArray[currentFloor+NUM_FLOORS][DOWN_BUTTON]==ON && HigherOrder==NO_ORDERS){
-                printf("STOPPING 1");
-                return STOP;
-            }
+
             break;
 
         case DIRN_DOWN:
-            if(p_elevator->orderArray[currentFloor][DOWN_BUTTON]==ON || p_elevator->orderArray[currentFloor+NUM_FLOORS][DOWN_BUTTON]==ON){
+            if(cabinButton==ON || hallDownButton==ON){
                 printf("STOPPING 2");
                 return STOP;
             }
-            else if(p_elevator->orderArray[currentFloor][UP_BUTTON]==ON && LowerOrder==NO_ORDERS || p_elevator->orderArray[currentFloor+NUM_FLOORS][UP_BUTTON]==ON && LowerOrder==NO_ORDERS){
+            else if(cabinButton==ON && LowerOrder==NO_ORDERS || hallUpButton==ON && LowerOrder==NO_ORDERS){
                 printf("STOPPING 3");
                 return STOP;
             }
             break;
-        
+            
         default:
             break;
 
@@ -232,14 +251,10 @@ MotorDirection chooseDirection(Elevator *p_elevator) {
     int lastDirection = p_elevator->lastDirection;
     int currentFloor = p_elevator->currentFloor;
 
-    if(p_elevator->orderArray[currentFloor][UP_BUTTON] == ON  ||  p_elevator->orderArray[currentFloor][DOWN_BUTTON]== ON){
-        return DIRN_STOP;
-    }
-
     switch(lastDirection){
         case DIRN_UP:
 
-            if(orderAbove(p_elevator)==ACTIVE_ORDER){
+            if((orderAbove(p_elevator) || orderOnCurrentFloor(p_elevator)) ==ACTIVE_ORDER){
                 return DIRN_UP;
             }
 
@@ -262,14 +277,14 @@ MotorDirection chooseDirection(Elevator *p_elevator) {
         break;
 
         case DIRN_STOP:
-
-            if(orderAbove(p_elevator)==ACTIVE_ORDER){
+            if((orderOnCurrentFloor(p_elevator) || orderAbove(p_elevator)) == ACTIVE_ORDER) {
                 return DIRN_UP;
             }
 
             else if(orderBelow(p_elevator)==ACTIVE_ORDER){
                 return DIRN_DOWN;
             }
+
             return DIRN_STOP;
         break;
     }

@@ -8,12 +8,19 @@
 #define TIME_OUT 1
 #define TIME_NOT_OUT 0
 
-time_t timer;
+//time_t timer;
+
+typedef struct
+{
+    time_t timer;
+
+}Timer;
 
 
-void setTimer();
 
-int checkTimer(double timeToElapse);
+void setTimer(Timer *p_timer);
+
+int checkTimer(double timeToElapse, Timer *p_timer);
 
 
 #endif // TIMER_H

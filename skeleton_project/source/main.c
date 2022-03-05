@@ -16,17 +16,21 @@ int main(){
     
     Elevator *p_elevator=malloc(sizeof(Elevator));
     FSM *p_fsm=malloc(sizeof(FSM));
+    Timer *p_timer = malloc(sizeof(Timer));
 
-    //setTimer();
+    setTimer(p_timer);
+
     elevatorInit(p_elevator);
         
     
     while(1){
-        FSMSwitch(p_fsm, p_elevator);
+         FSMSwitch(p_fsm, p_elevator, p_timer);
     }
+
     
     free(p_elevator);
     free(p_fsm);
+    free(p_timer);
     return 0;
 }
 

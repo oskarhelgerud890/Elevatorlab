@@ -25,9 +25,12 @@ typedef struct
 {
     int orderArray[NUM_ORDER_BUTTONS][NUM_DIRECTIONS];
 
-    int stopButton;
+    //int stopButton;
+    //int doorOpen;
+    int currentObstructionValue;
+    int lastObstructionValue;
+
     int doorOpen;
-    int obstructionButton;
 
     int currentFloor;
     MotorDirection currentDirection;
@@ -122,10 +125,12 @@ int shouldStop(Elevator *p_elevator);
 int shouldStop(Elevator *p_elevator);
 int orderAbove(Elevator *p_elevator);
 int orderBelow(Elevator *p_elevator);
+int orderOnCurrentFloor(Elevator *p_elevator);
 MotorDirection chooseDirection(Elevator *p_elevator);
 void clearOrdersOnFloor(Elevator *p_elevator);
 
 void printArray(Elevator *p_elevator);
+
 
 
 #endif // ELEVATOR_H
