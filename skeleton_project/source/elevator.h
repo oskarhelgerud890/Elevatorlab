@@ -2,23 +2,8 @@
 #define ELEVATOR_H
 
 #include "driver/elevio.h"
+#include "defines.h"
 
-#define NUM_DIRECTIONS 2
-#define TOT_NUM_LIGHTS 16
-#define NUM_ORDER_BUTTONS 8
-#define ON 1
-#define OFF 0
-#define UP 1
-#define DOWN -1
-#define STOP 0
-#define DONT_STOP 1
-#define BETWEEN -1
-#define NUM_FLOORS 4
-
-#define ACTIVE_ORDER 1
-#define NO_ORDERS 0
-#define DOWN_BUTTON 0
-#define UP_BUTTON 1
 
 
 typedef struct

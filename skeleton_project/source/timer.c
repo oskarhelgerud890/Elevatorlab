@@ -1,4 +1,5 @@
 #include "timer.h"
+#include "defines.h"
 
 void setTimer(Timer *p_timer) {
 
