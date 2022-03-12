@@ -1,48 +1,121 @@
 #ifndef ELEVATOR_H
 #define ELEVATOR_H
 
-#include "elevio.h"
+#include "driver/elevio.h"
+#include "defines.h"
 
-#define NUM_DIRECTIONS 2
-#define TOT_NUM_LIGHTS 16
-#define NUM_ORDER_BUTTONS 8
+
 
 typedef struct
 {
-    int OrderArray[NUM_ORDER_BUTTONS][NUM_DIRECTIONS];
-    int lightArray[TOT_NUM_LIGHTS];
+    int orderArray[NUM_ORDER_BUTTONS][NUM_DIRECTIONS];
 
-    int stopButton;
+    //int stopButton;
+    //int doorOpen;
+    int currentObstructionValue;
+    int lastObstructionValue;
+
     int doorOpen;
-    int obstructionButton;
 
     int currentFloor;
-    int currentDirection;
-    int lastDirection;
+    MotorDirection currentDirection;
+    MotorDirection lastDirection;
+
 
 }Elevator;
 
-void elevatorInit(void);
+/**
+ * @brief Initialiser the elevator
+ * 
+ * @param p_elevator 
+ */
+void elevatorInit(Elevator* p_elevator);
 
 /**
-* @brief Set elevator direction. Wrapper function for
+* @brief Wrapper functions for
 * the elevio library.
 */
 
-
-//Elev_io functins
+/**
+ * @brief Set the elevator direction
+ * 
+ * @param dir 
+ */
 void setElevatorDirection(MotorDirection dir);
-void setButtonLamp(int floor, ButtonType button, int value);
+
+/**
+ * @brief Set a chosen order button lamp
+ * 
+ * @param floor 
+ * @param button 
+ * @param value 
+ */
+void setOrderButtonLamp(int floor, ButtonType button, int value);
+
+/**
+ * @brief Set a choosen floor lamp
+ * 
+ * @param floor 
+ */
 void setFloorLamp(int floor);
+
+/**
+ * @brief Set the DoorOpen lamp
+ * 
+ * @param value 
+ */
 void setDoorOpenLamp(int value);
-void setStopButton(int value);
+
+/**
+ * @brief Set the stop-button lamp
+ * 
+ * @param value 
+ */
+void setStopLamp(int value);
+
+/**void checkStopButton(void);rief Get the current floor
+ * 
+ * @return Current floor, int
+ */
+int getFloor(void);
+
+/**
+ * @brief Get the value of stop button
+ * 
+ * @return Stop button vlaue, int 
+ */
+int getStopButton(void);
+
+/**
+ * @brief Get the value of the obstructon button
+ * 
+ * @return Obstruction button value, int 
+ */
+int getObstructionButton(void);
+
 
 //Button Functions
-void updateOrders(Elevator *p_elevator);
-void checkStopButton(void);
 void checkObstructionButton(void);
 
-int chooseDirection(Elevator p_elevator);
+void clearOrders(Elevator *p_elevator);
+
+void updateOrderArray(Elevator *p_elevator);
+
+void updateOrderLights(Elevator *p_elevator);
+
+int shouldStop(Elevator *p_elevator);
+
+
+// choose direction stuff
+int shouldStop(Elevator *p_elevator);
+int orderAbove(Elevator *p_elevator);
+int orderBelow(Elevator *p_elevator);
+int orderOnCurrentFloor(Elevator *p_elevator);
+MotorDirection chooseDirection(Elevator *p_elevator);
+void clearOrdersOnFloor(Elevator *p_elevator);
+
+void printArray(Elevator *p_elevator);
+
 
 
 #endif // ELEVATOR_H

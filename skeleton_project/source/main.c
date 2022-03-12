@@ -3,24 +3,46 @@
 #include <signal.h>
 #include <time.h>
 #include "driver/elevio.h"
-
+#include "elevator.h"
 #include "FSM.h"
+#include "timer.h"
+
 
 
 
 int main(){
+
     elevio_init();
     
-    printf("=== Example Program ===\n");
+    Elevator *p_elevator=malloc(sizeof(Elevator));
+    FSM *p_fsm=malloc(sizeof(FSM));
+    Timer *p_timer = malloc(sizeof(Timer));
+
+    setTimer(p_timer);
+
+    elevatorInit(p_elevator);
+        
+    
+    while(1){
+         FSMSwitch(p_fsm, p_elevator, p_timer);
+    }
+
+    
+    free(p_elevator);
+    free(p_fsm);
+    free(p_timer);
+    return 0;
+}
+
+/*
+printf("=== Example Program ===\n");
     printf("Press the stop button on the elevator panel to exit\n");
 
     elevio_motorDirection(DIRN_UP);
 
     while(1){
         int floor = elevio_floorSensor();
-        printf("floor: %d \n",floor);
-
-        if(floor == 0){
+        printf("floor: %d \n",floor);while(1)
             elevio_motorDirection(DIRN_UP);
         }
 
@@ -48,7 +70,5 @@ int main(){
         }
         
         nanosleep(&(struct timespec){0, 20*1000*1000}, NULL);
-    }
-
-    return 0;
-}
+    }*/
+    
