@@ -28,7 +28,7 @@ typedef struct
  * @brief switch containing each case/state of the elevator
  * 
  */
-void FSMSwitch(FSM *p_fsm, Elevator *p_elevator, Timer *p_timer);
+void FSMSpinOnce(FSM *p_fsm, Elevator *p_elevator, Timer *p_timer);
 
 
 #endif // FSM_H

@@ -7,7 +7,7 @@
  * 
  */
 
-void FSMSwitch(FSM *p_fsm, Elevator *p_elevator, Timer *p_timer){
+void FSMSpinOnce(FSM *p_fsm, Elevator *p_elevator, Timer *p_timer){
     switch (p_fsm->currentState){
     case IDLE:
         if(getStopButton()){

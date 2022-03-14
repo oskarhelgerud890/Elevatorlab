@@ -24,7 +24,7 @@ int main(){
         
     
     while(1){
-         FSMSwitch(p_fsm, p_elevator, p_timer);
+        FSMSpinonce(p_fsm, p_elevator, p_timer);
     }
 
     
