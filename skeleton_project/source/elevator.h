@@ -10,12 +10,17 @@
 #include "defines.h"
 
 
-/** @struct foreignstruct
- *  @brief This structure blah blah blah...
- *  @var foreignstruct::a 
- *  Member 'a' contains...
- *  @var foreignstruct::b 
- *  Member 'b' contains...
+/** @struct Elevator
+ *  @brief Keep track of variables that are important for operating the elevators behavious.
+ *  @var orderArray contains the value of all order buttons: 1 if a given button has been pressed, 0 if not.
+ *  @var currentObstructionValue keep track of value of obstruction button. 1 if pressed, 0 if not.
+ *  @var lastObstructionValue keep track of last value of obstruction button. 1 if pressed, 0 if not.
+ *       Used to check if obstruction button recently has changed value.
+ *  @var doorOpen 1 if door is open, 0 if not.
+ *  @var currentFloor keep track of which floot the elevator is in. Is set to the floor the elevator last was in, if elevator is between floors.
+ *  @var currentDirection keep track of which direction the elevator is moving; up/down/still.
+ *  @var lastDirection keep track of which direction the elevator last was moving; up/down/still.
+ *       Used for state transitions and deciding next moving direction.
  */
 typedef struct
 {
@@ -30,21 +35,21 @@ typedef struct
 }Elevator;
 
 /**
- * @brief Initializer for the elevator. Elevator moves until a floor is reached. Variables are set so that the state of the elevator is known.
- * 
+ * @brief Initializer for the elevator.
+ * Elevator moves until a floor is reached. Variables are set so that the state of the elevator is known.
  * @param p_elevator 
  */
 void elevatorInit(Elevator* p_elevator);
 
 /**
-* @brief Wrapper functions for
+* @brief Functions down to, and including, getObstructionButton() are Wrapper functions for
 * the elevio library.
 */
 
 /**
  * @brief Set the elevator direction
  * 
- * @param dir 
+ * @param[] dir 
  */
 void setElevatorDirection(MotorDirection dir);
 
@@ -52,9 +57,9 @@ void setElevatorDirection(MotorDirection dir);
 /**
  * @brief Set a chosen order button lamp
  * 
- * @param floor 
- * @param button 
- * @param value 
+ * @param[] floor 
+ * @param[] button 
+ * @param[] value 
  */
 void setOrderButtonLamp(int floor, ButtonType button, int value);
 
@@ -62,7 +67,7 @@ void setOrderButtonLamp(int floor, ButtonType button, int value);
 /**
  * @brief Set a chosen floor lamp
  * 
- * @param floor 
+ * @param[] floor 
  */
 void setFloorLamp(int floor);
 
@@ -70,7 +75,7 @@ void setFloorLamp(int floor);
 /**
  * @brief Set the DoorOpen lamp
  * 
- * @param value 
+ * @param[] value 
  */
 void setDoorOpenLamp(int value);
 
@@ -78,14 +83,15 @@ void setDoorOpenLamp(int value);
 /**
  * @brief Set the stop-button lamp
  * 
- * @param value 
+ * @param[] value 
  */
 void setStopLamp(int value);
 
 
 /**void checkStopButton(void);rief Get the current floor
  * 
- * @return Current floor, int
+ * @return number of the floor the elevator is in. -1 if elevator is between floors.
+ * @warning floors are zero indexed, meaning floor 1 has the value 0. 
  */
 int getFloor(void);
 
@@ -93,7 +99,7 @@ int getFloor(void);
 /**
  * @brief Get the value of stop button
  * 
- * @return Stop button vlaue, int 
+ * @return 1 if button is pressed, 0 if not.
  */
 int getStopButton(void);
 
@@ -101,13 +107,10 @@ int getStopButton(void);
 /**
  * @brief Get the value of the obstructon button
  * 
- * @return Obstruction button value, int 
+ * @return 1 if button is pressed, 0 if not.
  */
 int getObstructionButton(void);
 
-
-//Button Functions
-void checkObstructionButton(void);
 
 /**
  * @brief Cleare all orders of the elevator by setting all elements of the order array to 0.
