@@ -1,7 +1,8 @@
 /**
- * @brief FSM module. states,cases for each state 
- * 
- */
+* @file
+* @brief Interface for ...
+*/
+
 #ifndef FSM_H
 #define FSM_H
 
@@ -11,6 +12,7 @@
 /**
  * @brief Enum for the different possible states of the elevator.
  */
+
 typedef enum{
     IDLE = 0,
     MOVING = 1,

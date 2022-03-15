@@ -1,8 +1,13 @@
+/**
+* @file
+* @brief Definitions that are used in the different files
+*/
+
 #ifndef DEFINES_H
 #define DEFINES_H
 
 /**
- * @brief defines
+ * @brief defines used in the timer file?
  * 
  */
 
