@@ -94,7 +94,7 @@ void elevatorInit(Elevator *p_elevator){
 void updateOrderArray(Elevator *p_elevator){
     for(int buttonIndex = 0; buttonIndex < NUM_ORDER_BUTTONS; buttonIndex++){
         
-        // The first 4 rows in the order array correspond to the order buttons in the cabin.
+        // The first 4 rows in the order array correspond to the order buttons on the elevator panel.
         if(buttonIndex<4){
         
             int isOrderCabin = getOrderButton(buttonIndex, BUTTON_CAB);
@@ -107,7 +107,8 @@ void updateOrderArray(Elevator *p_elevator){
 
         }
         else{
-            // The rest of the buttons ...
+            // The rest of the buttons correspond to the order buttons on the control panel.
+            // subtracting 4 to get the correct floor when accessing button value. 
             int isOrderDown = getOrderButton(buttonIndex-4,BUTTON_HALL_DOWN);
             int isOrderUp = getOrderButton(buttonIndex-4, BUTTON_HALL_UP);
 

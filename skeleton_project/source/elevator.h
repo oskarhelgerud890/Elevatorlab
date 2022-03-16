@@ -13,6 +13,8 @@
 /** @struct Elevator
  *  @brief Keep track of variables that are important for operating the elevators behavious.
  *  @var orderArray contains the value of all order buttons: 1 if a given button has been pressed, 0 if not.
+ *  First 4 rows corresponds to cabin buttons, 4 last to buttons outside of cabin.
+ *  First coloumn corresponds to down buttons, second/last to up buttons.
  *  @var currentObstructionValue keep track of value of obstruction button. 1 if pressed, 0 if not.
  *  @var lastObstructionValue keep track of last value of obstruction button. 1 if pressed, 0 if not.
  *       Used to check if obstruction button recently has changed value.
