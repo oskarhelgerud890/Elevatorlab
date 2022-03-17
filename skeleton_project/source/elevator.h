@@ -11,7 +11,7 @@
 
 
 /** @struct Elevator
- *  @brief Keep track of variables that are important for operating the elevators behavious.
+ *  @brief Keep track of variables that are important for operating the elevators behaviour.
  *  @var orderArray contains the value of all order buttons: 1 if a given button has been pressed, 0 if not.
  *  First 4 rows corresponds to cabin buttons, 4 last to buttons outside of cabin.
  *  First coloumn corresponds to down buttons, second/last to up buttons.
@@ -182,8 +182,6 @@ void clearOrdersOnFloor(Elevator *p_elevator);
  * @param[in] p_elevator 
  */
 void printArray(Elevator *p_elevator);
-
-
 
 #endif // ELEVATOR_H
 

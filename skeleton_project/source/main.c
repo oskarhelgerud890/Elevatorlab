@@ -7,27 +7,21 @@
 #include "FSM.h"
 #include "timer.h"
 
-
-
-
 int main(){
 
     elevio_init();
     
-    Elevator *p_elevator=malloc(sizeof(Elevator));
-    FSM *p_fsm=malloc(sizeof(FSM));
+    Elevator *p_elevator = malloc(sizeof(Elevator));
+    FSM *p_fsm = malloc(sizeof(FSM));
     Timer *p_timer = malloc(sizeof(Timer));
 
     setTimer(p_timer);
-
-    elevatorInit(p_elevator);
-        
+    elevatorInit(p_elevator);  
     
     while(1){
         FSMSpinonce(p_fsm, p_elevator, p_timer);
     }
 
-    
     free(p_elevator);
     free(p_fsm);
     free(p_timer);

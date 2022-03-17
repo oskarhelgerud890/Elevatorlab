@@ -1,6 +1,7 @@
 /**
 * @file
-* @brief Interface for ...
+* @brief Contains the FSM struct, and functions that makes the elevator take decisions, 
+* such as which direction to move, and if it should stop. 
 */
 
 #ifndef FSM_H
@@ -19,18 +20,22 @@ typedef enum{
     EMERGENCY = 2,
 }State;
 
+
+/** @struct FSM
+ * @brief keeps track of which state the elevator is in
+ * @var currentState contains the current state of the elevator
+ */
 typedef struct
 {
-    //Elevator *p_elevator;
     State currentState;
-    //Timer *p_timer;
 }FSM;
 
 /**
- * @brief switch containing each case/state of the elevator
- * 
+ * @brief switch containing each state of the elevator, and the appropriate elevator-functionality
+ * @param[] p_fsm
+ * @param[] p_elevator
+ * @param[] p_timer
  */
 void FSMSpinOnce(FSM *p_fsm, Elevator *p_elevator, Timer *p_timer);
-
 
 #endif // FSM_H
