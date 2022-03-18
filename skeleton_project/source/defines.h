@@ -1,11 +1,10 @@
 /**
-* @file
-* @brief Definitions that are used in the different files
-*/
+ * @file
+ * @brief Definitions that are used in the different files
+ */
 
 #ifndef DEFINES_H
 #define DEFINES_H
-
 
 // timer defines
 #define TIME_TO_ELAPSE 3
@@ -25,6 +24,5 @@
 #define NO_ORDERS 0
 #define DOWN_BUTTON 0
 #define UP_BUTTON 1
-
 
 #endif // DEFINES_H
