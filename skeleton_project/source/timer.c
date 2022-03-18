@@ -2,8 +2,7 @@
 #include "defines.h"
 
 void setTimer(Timer *p_timer) {
-
-    p_timer->timer=time(NULL);
+    p_timer->timer = time(NULL);
     return;
 }
 

@@ -1,0 +1,468 @@
+\hypertarget{elevator_8h}{}\doxysection{source/elevator.h File Reference}
+\label{elevator_8h}\index{source/elevator.h@{source/elevator.h}}
+
+
+Library for the elevator. Contains functions for handling orders, setting lights and accessing button values.  
+
+
+{\ttfamily \#include \char`\"{}driver/elevio.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}defines.\+h\char`\"{}}\newline
+Include dependency graph for elevator.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=248pt]{elevator_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{elevator_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structElevator}{Elevator}}
+\begin{DoxyCompactList}\small\item\em Keep track of variables that are important for operating the elevators behaviour in fsm. ~\newline
+order\+Array contains the value of all order buttons\+: 1 if a given button has been pressed, 0 if not. ~\newline
+First 4 rows corresponds to cabin buttons, 4 last to buttons outside of cabin. ~\newline
+First coloumn corresponds to down buttons, second (and last) to up buttons. ~\newline
+current\+Obstruction\+Value keep track of value of obstruction button. 1 if pressed, 0 if not. ~\newline
+last\+Obstruction\+Value keep track of last value of obstruction button. 1 if pressed, 0 if not. ~\newline
+ Used to check if obstruction button recently has changed value. ~\newline
+door\+Open 1 if door is open, 0 if not. ~\newline
+current\+Floor keep track of which floot the elevator is in. Is set to the floor the elevator last was in, if elevator is between floors. ~\newline
+current\+Direction keep track of which direction the elevator is moving; up/down/still. ~\newline
+last\+Direction keep track of which direction the elevator last was moving; up/down/still. ~\newline
+ Used for state transitions and deciding next moving direction in fsm. ~\newline
+. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{elevator_8h_ad1171c11b5f160a0434fb76031696a15}{elevator\+Init}} (\mbox{\hyperlink{structElevator}{Elevator}} $\ast$p\+\_\+elevator)
+\begin{DoxyCompactList}\small\item\em Initializer for the elevator. ~\newline
+\mbox{\hyperlink{structElevator}{Elevator}} moves until a floor is reached. Variables are set so that the state of the elevator is known. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{elevator_8h_a7aa705eaa65e26190e568d7e639e664a}{set\+Elevator\+Direction}} (Motor\+Direction dir)
+\begin{DoxyCompactList}\small\item\em Set the elevator motor direction. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{elevator_8h_aaade7ba720f2e9b3bc0a10d2735c3f55}{set\+Order\+Button\+Lamp}} (int floor, Button\+Type button, int value)
+\begin{DoxyCompactList}\small\item\em Set a chosen order button lamp. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{elevator_8h_af001fdf2267c45eb9f06c889ac3360cc}{set\+Floor\+Lamp}} (int floor)
+\begin{DoxyCompactList}\small\item\em Set a chosen floor lamp. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{elevator_8h_a74ae7f6677b459e8567c0715d4fae184}{set\+Door\+Open\+Lamp}} (int value)
+\begin{DoxyCompactList}\small\item\em Set the door\+Open lamp. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{elevator_8h_acb1b2fd68090f22b04a85f668322afb4}{set\+Stop\+Lamp}} (int value)
+\begin{DoxyCompactList}\small\item\em Set the stop-\/button lamp. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{elevator_8h_acb10bee9923d75bd34383986be7fa746}{get\+Floor}} (void)
+\begin{DoxyCompactList}\small\item\em get the value corresponding which floor the elevator is in. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{elevator_8h_a614406ec3d81757d1cfc3fb737041c64}{get\+Stop\+Button}} (void)
+\begin{DoxyCompactList}\small\item\em Get the value of stop button. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{elevator_8h_afcaefcebff319eea0a98fd8ae8463a55}{get\+Obstruction\+Button}} (void)
+\begin{DoxyCompactList}\small\item\em Get the value of the obstructon button. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{elevator_8h_a8427c3dedc57bc899526eef522c48cb0}{clear\+Orders}} (\mbox{\hyperlink{structElevator}{Elevator}} $\ast$p\+\_\+elevator)
+\begin{DoxyCompactList}\small\item\em Clear all orders of the elevator by setting all elements of the order array to 0. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{elevator_8h_a63cbf1a4e804089f014e055167ff7fea}{update\+Order\+Array}} (\mbox{\hyperlink{structElevator}{Elevator}} $\ast$p\+\_\+elevator)
+\begin{DoxyCompactList}\small\item\em Update orders by checking if the order buttons have been pressed. If so, the corresponding element in the order array gets the value 1. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{elevator_8h_a156c2687a3226a3578763d7464c05c96}{update\+Order\+Lights}} (\mbox{\hyperlink{structElevator}{Elevator}} $\ast$p\+\_\+elevator)
+\begin{DoxyCompactList}\small\item\em Update order lights by checking elements in order\+Array. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{elevator_8h_a69dd81b5d82a1ca62fc180c83310ba8d}{should\+Stop}} (\mbox{\hyperlink{structElevator}{Elevator}} $\ast$p\+\_\+elevator)
+\begin{DoxyCompactList}\small\item\em Decide if the elevator should stop by checking if an order on the current floor fulfills a set of requirements. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{elevator_8h_a965f1da64891a0e203138e3db2c43e67}{order\+Above}} (\mbox{\hyperlink{structElevator}{Elevator}} $\ast$p\+\_\+elevator)
+\begin{DoxyCompactList}\small\item\em Check if there are any orders on the floors above the current floor of the elevator. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{elevator_8h_a48505779ca128f2209e8aee2f071bd89}{order\+Below}} (\mbox{\hyperlink{structElevator}{Elevator}} $\ast$p\+\_\+elevator)
+\begin{DoxyCompactList}\small\item\em Check if there are any orders below the current floor of the elevator. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{elevator_8h_aad47efad9aa7e99282efd18d67f714e5}{order\+On\+Current\+Floor}} (\mbox{\hyperlink{structElevator}{Elevator}} $\ast$p\+\_\+elevator)
+\begin{DoxyCompactList}\small\item\em Check if there are any orders on the same floor as the elevator. \end{DoxyCompactList}\item 
+Motor\+Direction \mbox{\hyperlink{elevator_8h_ac8ea47e32b454c5afea5d839846bc730}{choose\+Direction}} (\mbox{\hyperlink{structElevator}{Elevator}} $\ast$p\+\_\+elevator)
+\begin{DoxyCompactList}\small\item\em Choose which direction the elevator should move based on where there are active orders relative to physical posisiton of the elevator. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{elevator_8h_a0de43b9628b2cb97251db1c9c8b6cd68}{clear\+Orders\+On\+Floor}} (\mbox{\hyperlink{structElevator}{Elevator}} $\ast$p\+\_\+elevator)
+\begin{DoxyCompactList}\small\item\em Clear order(s) on the floor if the elevator stops, hence executing the order(s). \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{elevator_8h_a2e8c10d55ea83064905e2bc2d86b68fd}{print\+Array}} (\mbox{\hyperlink{structElevator}{Elevator}} $\ast$p\+\_\+elevator)
+\begin{DoxyCompactList}\small\item\em Print elements in order array. Tool for checking orders when testing, is not used in the program. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Library for the elevator. Contains functions for handling orders, setting lights and accessing button values. 
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{elevator_8h_ac8ea47e32b454c5afea5d839846bc730}\label{elevator_8h_ac8ea47e32b454c5afea5d839846bc730}} 
+\index{elevator.h@{elevator.h}!chooseDirection@{chooseDirection}}
+\index{chooseDirection@{chooseDirection}!elevator.h@{elevator.h}}
+\doxysubsubsection{\texorpdfstring{chooseDirection()}{chooseDirection()}}
+{\footnotesize\ttfamily Motor\+Direction choose\+Direction (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structElevator}{Elevator}} $\ast$}]{p\+\_\+elevator }\end{DoxyParamCaption})}
+
+
+
+Choose which direction the elevator should move based on where there are active orders relative to physical posisiton of the elevator. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em p\+\_\+elevator} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+-\/1 if downwards, 1 if upwards, 0 if elevator should stand still 
+\end{DoxyReturn}
+
+
+Definition at line 228 of file elevator.\+c.
+
+\mbox{\Hypertarget{elevator_8h_a8427c3dedc57bc899526eef522c48cb0}\label{elevator_8h_a8427c3dedc57bc899526eef522c48cb0}} 
+\index{elevator.h@{elevator.h}!clearOrders@{clearOrders}}
+\index{clearOrders@{clearOrders}!elevator.h@{elevator.h}}
+\doxysubsubsection{\texorpdfstring{clearOrders()}{clearOrders()}}
+{\footnotesize\ttfamily void clear\+Orders (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structElevator}{Elevator}} $\ast$}]{p\+\_\+elevator }\end{DoxyParamCaption})}
+
+
+
+Clear all orders of the elevator by setting all elements of the order array to 0. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in,out}}  & {\em p\+\_\+elevator} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 48 of file elevator.\+c.
+
+\mbox{\Hypertarget{elevator_8h_a0de43b9628b2cb97251db1c9c8b6cd68}\label{elevator_8h_a0de43b9628b2cb97251db1c9c8b6cd68}} 
+\index{elevator.h@{elevator.h}!clearOrdersOnFloor@{clearOrdersOnFloor}}
+\index{clearOrdersOnFloor@{clearOrdersOnFloor}!elevator.h@{elevator.h}}
+\doxysubsubsection{\texorpdfstring{clearOrdersOnFloor()}{clearOrdersOnFloor()}}
+{\footnotesize\ttfamily void clear\+Orders\+On\+Floor (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structElevator}{Elevator}} $\ast$}]{p\+\_\+elevator }\end{DoxyParamCaption})}
+
+
+
+Clear order(s) on the floor if the elevator stops, hence executing the order(s). 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in,out}}  & {\em p\+\_\+elevator} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 276 of file elevator.\+c.
+
+\mbox{\Hypertarget{elevator_8h_ad1171c11b5f160a0434fb76031696a15}\label{elevator_8h_ad1171c11b5f160a0434fb76031696a15}} 
+\index{elevator.h@{elevator.h}!elevatorInit@{elevatorInit}}
+\index{elevatorInit@{elevatorInit}!elevator.h@{elevator.h}}
+\doxysubsubsection{\texorpdfstring{elevatorInit()}{elevatorInit()}}
+{\footnotesize\ttfamily void elevator\+Init (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structElevator}{Elevator}} $\ast$}]{p\+\_\+elevator }\end{DoxyParamCaption})}
+
+
+
+Initializer for the elevator. ~\newline
+\mbox{\hyperlink{structElevator}{Elevator}} moves until a floor is reached. Variables are set so that the state of the elevator is known. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in,out}}  & {\em p\+\_\+elevator} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 59 of file elevator.\+c.
+
+\mbox{\Hypertarget{elevator_8h_acb10bee9923d75bd34383986be7fa746}\label{elevator_8h_acb10bee9923d75bd34383986be7fa746}} 
+\index{elevator.h@{elevator.h}!getFloor@{getFloor}}
+\index{getFloor@{getFloor}!elevator.h@{elevator.h}}
+\doxysubsubsection{\texorpdfstring{getFloor()}{getFloor()}}
+{\footnotesize\ttfamily int get\+Floor (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+get the value corresponding which floor the elevator is in. 
+
+\begin{DoxyReturn}{Returns}
+number of the floor the elevator is in. -\/1 if elevator is between floors. ~\newline
+Floors are zero indexed, meaning floor 1 has the value 0. 
+\end{DoxyReturn}
+
+
+Definition at line 36 of file elevator.\+c.
+
+\mbox{\Hypertarget{elevator_8h_afcaefcebff319eea0a98fd8ae8463a55}\label{elevator_8h_afcaefcebff319eea0a98fd8ae8463a55}} 
+\index{elevator.h@{elevator.h}!getObstructionButton@{getObstructionButton}}
+\index{getObstructionButton@{getObstructionButton}!elevator.h@{elevator.h}}
+\doxysubsubsection{\texorpdfstring{getObstructionButton()}{getObstructionButton()}}
+{\footnotesize\ttfamily int get\+Obstruction\+Button (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Get the value of the obstructon button. 
+
+\begin{DoxyReturn}{Returns}
+1 if button is pressed, 0 if not. 
+\end{DoxyReturn}
+
+
+Definition at line 44 of file elevator.\+c.
+
+\mbox{\Hypertarget{elevator_8h_a614406ec3d81757d1cfc3fb737041c64}\label{elevator_8h_a614406ec3d81757d1cfc3fb737041c64}} 
+\index{elevator.h@{elevator.h}!getStopButton@{getStopButton}}
+\index{getStopButton@{getStopButton}!elevator.h@{elevator.h}}
+\doxysubsubsection{\texorpdfstring{getStopButton()}{getStopButton()}}
+{\footnotesize\ttfamily int get\+Stop\+Button (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Get the value of stop button. 
+
+\begin{DoxyReturn}{Returns}
+1 if button is pressed, 0 if not. 
+\end{DoxyReturn}
+
+
+Definition at line 40 of file elevator.\+c.
+
+\mbox{\Hypertarget{elevator_8h_a965f1da64891a0e203138e3db2c43e67}\label{elevator_8h_a965f1da64891a0e203138e3db2c43e67}} 
+\index{elevator.h@{elevator.h}!orderAbove@{orderAbove}}
+\index{orderAbove@{orderAbove}!elevator.h@{elevator.h}}
+\doxysubsubsection{\texorpdfstring{orderAbove()}{orderAbove()}}
+{\footnotesize\ttfamily int order\+Above (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structElevator}{Elevator}} $\ast$}]{p\+\_\+elevator }\end{DoxyParamCaption})}
+
+
+
+Check if there are any orders on the floors above the current floor of the elevator. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em p\+\_\+elevator} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+1 if there is any and 0 if not. 
+\end{DoxyReturn}
+
+
+Definition at line 140 of file elevator.\+c.
+
+\mbox{\Hypertarget{elevator_8h_a48505779ca128f2209e8aee2f071bd89}\label{elevator_8h_a48505779ca128f2209e8aee2f071bd89}} 
+\index{elevator.h@{elevator.h}!orderBelow@{orderBelow}}
+\index{orderBelow@{orderBelow}!elevator.h@{elevator.h}}
+\doxysubsubsection{\texorpdfstring{orderBelow()}{orderBelow()}}
+{\footnotesize\ttfamily int order\+Below (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structElevator}{Elevator}} $\ast$}]{p\+\_\+elevator }\end{DoxyParamCaption})}
+
+
+
+Check if there are any orders below the current floor of the elevator. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em p\+\_\+elevator} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+1 if there is any and 0 if not. 
+\end{DoxyReturn}
+
+
+Definition at line 163 of file elevator.\+c.
+
+\mbox{\Hypertarget{elevator_8h_aad47efad9aa7e99282efd18d67f714e5}\label{elevator_8h_aad47efad9aa7e99282efd18d67f714e5}} 
+\index{elevator.h@{elevator.h}!orderOnCurrentFloor@{orderOnCurrentFloor}}
+\index{orderOnCurrentFloor@{orderOnCurrentFloor}!elevator.h@{elevator.h}}
+\doxysubsubsection{\texorpdfstring{orderOnCurrentFloor()}{orderOnCurrentFloor()}}
+{\footnotesize\ttfamily int order\+On\+Current\+Floor (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structElevator}{Elevator}} $\ast$}]{p\+\_\+elevator }\end{DoxyParamCaption})}
+
+
+
+Check if there are any orders on the same floor as the elevator. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em p\+\_\+elevator} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+1 if there is any and 0 if not. 
+\end{DoxyReturn}
+
+
+Definition at line 183 of file elevator.\+c.
+
+\mbox{\Hypertarget{elevator_8h_a2e8c10d55ea83064905e2bc2d86b68fd}\label{elevator_8h_a2e8c10d55ea83064905e2bc2d86b68fd}} 
+\index{elevator.h@{elevator.h}!printArray@{printArray}}
+\index{printArray@{printArray}!elevator.h@{elevator.h}}
+\doxysubsubsection{\texorpdfstring{printArray()}{printArray()}}
+{\footnotesize\ttfamily void print\+Array (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structElevator}{Elevator}} $\ast$}]{p\+\_\+elevator }\end{DoxyParamCaption})}
+
+
+
+Print elements in order array. Tool for checking orders when testing, is not used in the program. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em p\+\_\+elevator} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 266 of file elevator.\+c.
+
+\mbox{\Hypertarget{elevator_8h_a74ae7f6677b459e8567c0715d4fae184}\label{elevator_8h_a74ae7f6677b459e8567c0715d4fae184}} 
+\index{elevator.h@{elevator.h}!setDoorOpenLamp@{setDoorOpenLamp}}
+\index{setDoorOpenLamp@{setDoorOpenLamp}!elevator.h@{elevator.h}}
+\doxysubsubsection{\texorpdfstring{setDoorOpenLamp()}{setDoorOpenLamp()}}
+{\footnotesize\ttfamily void set\+Door\+Open\+Lamp (\begin{DoxyParamCaption}\item[{int}]{value }\end{DoxyParamCaption})}
+
+
+
+Set the door\+Open lamp. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em value} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 22 of file elevator.\+c.
+
+\mbox{\Hypertarget{elevator_8h_a7aa705eaa65e26190e568d7e639e664a}\label{elevator_8h_a7aa705eaa65e26190e568d7e639e664a}} 
+\index{elevator.h@{elevator.h}!setElevatorDirection@{setElevatorDirection}}
+\index{setElevatorDirection@{setElevatorDirection}!elevator.h@{elevator.h}}
+\doxysubsubsection{\texorpdfstring{setElevatorDirection()}{setElevatorDirection()}}
+{\footnotesize\ttfamily void set\+Elevator\+Direction (\begin{DoxyParamCaption}\item[{Motor\+Direction}]{dir }\end{DoxyParamCaption})}
+
+
+
+Set the elevator motor direction. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em dir} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 6 of file elevator.\+c.
+
+\mbox{\Hypertarget{elevator_8h_af001fdf2267c45eb9f06c889ac3360cc}\label{elevator_8h_af001fdf2267c45eb9f06c889ac3360cc}} 
+\index{elevator.h@{elevator.h}!setFloorLamp@{setFloorLamp}}
+\index{setFloorLamp@{setFloorLamp}!elevator.h@{elevator.h}}
+\doxysubsubsection{\texorpdfstring{setFloorLamp()}{setFloorLamp()}}
+{\footnotesize\ttfamily void set\+Floor\+Lamp (\begin{DoxyParamCaption}\item[{int}]{floor }\end{DoxyParamCaption})}
+
+
+
+Set a chosen floor lamp. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em floor} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 17 of file elevator.\+c.
+
+\mbox{\Hypertarget{elevator_8h_aaade7ba720f2e9b3bc0a10d2735c3f55}\label{elevator_8h_aaade7ba720f2e9b3bc0a10d2735c3f55}} 
+\index{elevator.h@{elevator.h}!setOrderButtonLamp@{setOrderButtonLamp}}
+\index{setOrderButtonLamp@{setOrderButtonLamp}!elevator.h@{elevator.h}}
+\doxysubsubsection{\texorpdfstring{setOrderButtonLamp()}{setOrderButtonLamp()}}
+{\footnotesize\ttfamily void set\+Order\+Button\+Lamp (\begin{DoxyParamCaption}\item[{int}]{floor,  }\item[{Button\+Type}]{button,  }\item[{int}]{value }\end{DoxyParamCaption})}
+
+
+
+Set a chosen order button lamp. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em floor} & \\
+\hline
+\mbox{\texttt{ in}}  & {\em button} & \\
+\hline
+\mbox{\texttt{ in}}  & {\em value} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 12 of file elevator.\+c.
+
+\mbox{\Hypertarget{elevator_8h_acb1b2fd68090f22b04a85f668322afb4}\label{elevator_8h_acb1b2fd68090f22b04a85f668322afb4}} 
+\index{elevator.h@{elevator.h}!setStopLamp@{setStopLamp}}
+\index{setStopLamp@{setStopLamp}!elevator.h@{elevator.h}}
+\doxysubsubsection{\texorpdfstring{setStopLamp()}{setStopLamp()}}
+{\footnotesize\ttfamily void set\+Stop\+Lamp (\begin{DoxyParamCaption}\item[{int}]{value }\end{DoxyParamCaption})}
+
+
+
+Set the stop-\/button lamp. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em value} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 27 of file elevator.\+c.
+
+\mbox{\Hypertarget{elevator_8h_a69dd81b5d82a1ca62fc180c83310ba8d}\label{elevator_8h_a69dd81b5d82a1ca62fc180c83310ba8d}} 
+\index{elevator.h@{elevator.h}!shouldStop@{shouldStop}}
+\index{shouldStop@{shouldStop}!elevator.h@{elevator.h}}
+\doxysubsubsection{\texorpdfstring{shouldStop()}{shouldStop()}}
+{\footnotesize\ttfamily int should\+Stop (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structElevator}{Elevator}} $\ast$}]{p\+\_\+elevator }\end{DoxyParamCaption})}
+
+
+
+Decide if the elevator should stop by checking if an order on the current floor fulfills a set of requirements. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em p\+\_\+elevator} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 if there are any relevant orders and 1 if not. 
+\end{DoxyReturn}
+
+
+Definition at line 194 of file elevator.\+c.
+
+\mbox{\Hypertarget{elevator_8h_a63cbf1a4e804089f014e055167ff7fea}\label{elevator_8h_a63cbf1a4e804089f014e055167ff7fea}} 
+\index{elevator.h@{elevator.h}!updateOrderArray@{updateOrderArray}}
+\index{updateOrderArray@{updateOrderArray}!elevator.h@{elevator.h}}
+\doxysubsubsection{\texorpdfstring{updateOrderArray()}{updateOrderArray()}}
+{\footnotesize\ttfamily void update\+Order\+Array (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structElevator}{Elevator}} $\ast$}]{p\+\_\+elevator }\end{DoxyParamCaption})}
+
+
+
+Update orders by checking if the order buttons have been pressed. If so, the corresponding element in the order array gets the value 1. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in,out}}  & {\em p\+\_\+elevator} & ~\newline
+ \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 83 of file elevator.\+c.
+
+\mbox{\Hypertarget{elevator_8h_a156c2687a3226a3578763d7464c05c96}\label{elevator_8h_a156c2687a3226a3578763d7464c05c96}} 
+\index{elevator.h@{elevator.h}!updateOrderLights@{updateOrderLights}}
+\index{updateOrderLights@{updateOrderLights}!elevator.h@{elevator.h}}
+\doxysubsubsection{\texorpdfstring{updateOrderLights()}{updateOrderLights()}}
+{\footnotesize\ttfamily void update\+Order\+Lights (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structElevator}{Elevator}} $\ast$}]{p\+\_\+elevator }\end{DoxyParamCaption})}
+
+
+
+Update order lights by checking elements in order\+Array. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in,out}}  & {\em p\+\_\+elevator} & ~\newline
+ \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 117 of file elevator.\+c.
+

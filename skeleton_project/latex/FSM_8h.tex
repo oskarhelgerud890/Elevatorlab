@@ -1,0 +1,74 @@
+\hypertarget{FSM_8h}{}\doxysection{source/\+F\+SM.h File Reference}
+\label{FSM_8h}\index{source/FSM.h@{source/FSM.h}}
+
+
+Interface for the finite state maschine, which is used for decision-\/making.  
+
+
+{\ttfamily \#include \char`\"{}elevator.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}timer.\+h\char`\"{}}\newline
+Include dependency graph for F\+S\+M.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=318pt]{FSM_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=264pt]{FSM_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structFSM}{F\+SM}}
+\begin{DoxyCompactList}\small\item\em keeps track of which state the elevator currently is in ~\newline
+current\+State contains the current state of the elevator \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{FSM_8h_a5d74787dedbc4e11c1ab15bf487e61f8}\label{FSM_8h_a5d74787dedbc4e11c1ab15bf487e61f8}} 
+enum \mbox{\hyperlink{FSM_8h_a5d74787dedbc4e11c1ab15bf487e61f8}{State}} \{ {\bfseries I\+D\+LE} = 0, 
+{\bfseries M\+O\+V\+I\+NG} = 1, 
+{\bfseries E\+M\+E\+R\+G\+E\+N\+CY} = 2
+ \}
+\begin{DoxyCompactList}\small\item\em Enum for the different possible states of the elevator. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{FSM_8h_af74b91dc606d5724e79db2a58a01ad96}{F\+S\+M\+Spin\+Once}} (\mbox{\hyperlink{structFSM}{F\+SM}} $\ast$p\+\_\+fsm, \mbox{\hyperlink{structElevator}{Elevator}} $\ast$p\+\_\+elevator, \mbox{\hyperlink{structTimer}{Timer}} $\ast$p\+\_\+timer)
+\begin{DoxyCompactList}\small\item\em Switch-\/function containing each state of the elevator as cases, and the appropriate elevator-\/functionality. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Interface for the finite state maschine, which is used for decision-\/making. 
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{FSM_8h_af74b91dc606d5724e79db2a58a01ad96}\label{FSM_8h_af74b91dc606d5724e79db2a58a01ad96}} 
+\index{FSM.h@{FSM.h}!FSMSpinOnce@{FSMSpinOnce}}
+\index{FSMSpinOnce@{FSMSpinOnce}!FSM.h@{FSM.h}}
+\doxysubsubsection{\texorpdfstring{FSMSpinOnce()}{FSMSpinOnce()}}
+{\footnotesize\ttfamily void F\+S\+M\+Spin\+Once (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structFSM}{F\+SM}} $\ast$}]{p\+\_\+fsm,  }\item[{\mbox{\hyperlink{structElevator}{Elevator}} $\ast$}]{p\+\_\+elevator,  }\item[{\mbox{\hyperlink{structTimer}{Timer}} $\ast$}]{p\+\_\+timer }\end{DoxyParamCaption})}
+
+
+
+Switch-\/function containing each state of the elevator as cases, and the appropriate elevator-\/functionality. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in,out}}  & {\em p\+\_\+fsm} & \\
+\hline
+\mbox{\texttt{ in,out}}  & {\em p\+\_\+elevator} & \\
+\hline
+\mbox{\texttt{ in,out}}  & {\em p\+\_\+timer} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 4 of file F\+S\+M.\+c.
+

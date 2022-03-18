@@ -1,10 +1,11 @@
+/**
+* @file
+* @brief Definitions that are used in the different files
+*/
+
 #ifndef DEFINES_H
 #define DEFINES_H
 
-/**
- * @brief defines
- * 
- */
 
 // timer defines
 #define TIME_TO_ELAPSE 3

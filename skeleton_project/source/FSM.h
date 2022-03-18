@@ -1,7 +1,8 @@
 /**
- * @brief FSM module. states,cases for each state 
- * 
- */
+* @file
+* @brief Interface for the finite state maschine, which is used for decision-making.
+*/
+
 #ifndef FSM_H
 #define FSM_H
 
@@ -17,18 +18,22 @@ typedef enum{
     EMERGENCY = 2,
 }State;
 
+
+/** @struct FSM
+ * @brief keeps track of which state the elevator currently is in \n
+ * currentState contains the current state of the elevator
+ */
 typedef struct
 {
-    //Elevator *p_elevator;
     State currentState;
-    //Timer *p_timer;
 }FSM;
 
 /**
- * @brief switch containing each case/state of the elevator
- * 
+ * @brief Switch-function containing each state of the elevator as cases, and the appropriate elevator-functionality
+ * @param[in, out] p_fsm
+ * @param[in, out] p_elevator
+ * @param[in, out] p_timer
  */
-void FSMSwitch(FSM *p_fsm, Elevator *p_elevator, Timer *p_timer);
-
+void FSMSpinOnce(FSM *p_fsm, Elevator *p_elevator, Timer *p_timer);
 
 #endif // FSM_H
