@@ -16,7 +16,8 @@ int main(){
     Timer *p_timer = malloc(sizeof(Timer));
 
     setTimer(p_timer);
-    elevatorInit(p_elevator);  
+    elevatorInit(p_elevator);
+    p_fsm->currentState = IDLE;  
     
     while(1){
         FSMSpinonce(p_fsm, p_elevator, p_timer);

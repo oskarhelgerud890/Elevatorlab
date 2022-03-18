@@ -1,0 +1,71 @@
+\hypertarget{structElevator}{}\doxysection{Elevator Struct Reference}
+\label{structElevator}\index{Elevator@{Elevator}}
+
+
+Keep track of variables that are important for operating the elevators behaviour in fsm. ~\newline
+order\+Array contains the value of all order buttons\+: 1 if a given button has been pressed, 0 if not. ~\newline
+First 4 rows corresponds to cabin buttons, 4 last to buttons outside of cabin. ~\newline
+First coloumn corresponds to down buttons, second (and last) to up buttons. ~\newline
+current\+Obstruction\+Value keep track of value of obstruction button. 1 if pressed, 0 if not. ~\newline
+last\+Obstruction\+Value keep track of last value of obstruction button. 1 if pressed, 0 if not. ~\newline
+ Used to check if obstruction button recently has changed value. ~\newline
+door\+Open 1 if door is open, 0 if not. ~\newline
+current\+Floor keep track of which floot the elevator is in. Is set to the floor the elevator last was in, if elevator is between floors. ~\newline
+current\+Direction keep track of which direction the elevator is moving; up/down/still. ~\newline
+last\+Direction keep track of which direction the elevator last was moving; up/down/still. ~\newline
+ Used for state transitions and deciding next moving direction in fsm. ~\newline
+.  
+
+
+
+
+{\ttfamily \#include $<$elevator.\+h$>$}
+
+\doxysubsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structElevator_a92710443f4166728f7daca34a88dbd8a}\label{structElevator_a92710443f4166728f7daca34a88dbd8a}} 
+int {\bfseries order\+Array} \mbox{[}N\+U\+M\+\_\+\+O\+R\+D\+E\+R\+\_\+\+B\+U\+T\+T\+O\+NS\mbox{]}\mbox{[}N\+U\+M\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+NS\mbox{]}
+\item 
+\mbox{\Hypertarget{structElevator_a63ba81f83b47ce36fa9b601635266203}\label{structElevator_a63ba81f83b47ce36fa9b601635266203}} 
+int {\bfseries current\+Obstruction\+Value}
+\item 
+\mbox{\Hypertarget{structElevator_adb316d9bcc4f95daacb261e9b99b4fea}\label{structElevator_adb316d9bcc4f95daacb261e9b99b4fea}} 
+int {\bfseries last\+Obstruction\+Value}
+\item 
+\mbox{\Hypertarget{structElevator_ae888376c82b9530239890da4dd413d3c}\label{structElevator_ae888376c82b9530239890da4dd413d3c}} 
+int {\bfseries door\+Open}
+\item 
+\mbox{\Hypertarget{structElevator_a59fc574201dc14357f17693eda0a4201}\label{structElevator_a59fc574201dc14357f17693eda0a4201}} 
+int {\bfseries current\+Floor}
+\item 
+\mbox{\Hypertarget{structElevator_a3d2d52939b5286da5bba8284d72d0b58}\label{structElevator_a3d2d52939b5286da5bba8284d72d0b58}} 
+Motor\+Direction {\bfseries current\+Direction}
+\item 
+\mbox{\Hypertarget{structElevator_aa03531997e7268b616ddd3ce00cda70e}\label{structElevator_aa03531997e7268b616ddd3ce00cda70e}} 
+Motor\+Direction {\bfseries last\+Direction}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Keep track of variables that are important for operating the elevators behaviour in fsm. ~\newline
+order\+Array contains the value of all order buttons\+: 1 if a given button has been pressed, 0 if not. ~\newline
+First 4 rows corresponds to cabin buttons, 4 last to buttons outside of cabin. ~\newline
+First coloumn corresponds to down buttons, second (and last) to up buttons. ~\newline
+current\+Obstruction\+Value keep track of value of obstruction button. 1 if pressed, 0 if not. ~\newline
+last\+Obstruction\+Value keep track of last value of obstruction button. 1 if pressed, 0 if not. ~\newline
+ Used to check if obstruction button recently has changed value. ~\newline
+door\+Open 1 if door is open, 0 if not. ~\newline
+current\+Floor keep track of which floot the elevator is in. Is set to the floor the elevator last was in, if elevator is between floors. ~\newline
+current\+Direction keep track of which direction the elevator is moving; up/down/still. ~\newline
+last\+Direction keep track of which direction the elevator last was moving; up/down/still. ~\newline
+ Used for state transitions and deciding next moving direction in fsm. ~\newline
+. 
+
+Definition at line 27 of file elevator.\+h.
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+source/\mbox{\hyperlink{elevator_8h}{elevator.\+h}}\end{DoxyCompactItemize}

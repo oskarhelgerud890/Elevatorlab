@@ -59,7 +59,7 @@ void clearOrders(Elevator *p_elevator)
 void elevatorInit(Elevator *p_elevator){
     p_elevator->currentFloor = getFloor();
 
-    while(p_elevator->currentFloor == -1){
+    while(p_elevator->currentFloor == BETWEEN){
         setElevatorDirection(DIRN_UP);
         p_elevator->currentFloor = getFloor();
     }
@@ -82,13 +82,16 @@ void elevatorInit(Elevator *p_elevator){
 
 void updateOrderArray(Elevator *p_elevator){
     for(int buttonIndex = 0; buttonIndex < NUM_ORDER_BUTTONS; buttonIndex++){
+
+        int downButton = p_elevator->orderArray[buttonIndex][DOWN_BUTTON];
+        int upButton = p_elevator->orderArray[buttonIndex][UP_BUTTON];
         
         // The first 4 rows in the order array correspond to the order buttons on the elevator panel.
         if(buttonIndex < 4){
         
             int isOrderCabin = getOrderButton(buttonIndex, BUTTON_CAB);
 
-            if(isOrderCabin == ON && p_elevator->orderArray[buttonIndex][DOWN_BUTTON] == OFF){
+            if(isOrderCabin && (downButton == OFF)){
                 p_elevator->orderArray[buttonIndex][DOWN_BUTTON] = ON;
                 p_elevator->orderArray[buttonIndex][UP_BUTTON] = ON;
             }
@@ -99,11 +102,11 @@ void updateOrderArray(Elevator *p_elevator){
             int isOrderDown = getOrderButton(buttonIndex - 4,BUTTON_HALL_DOWN);
             int isOrderUp = getOrderButton(buttonIndex - 4, BUTTON_HALL_UP);
 
-            if(isOrderDown == ON && p_elevator->orderArray[buttonIndex][DOWN_BUTTON] == OFF){
+            if(isOrderDown && (downButton == OFF)){
                 p_elevator->orderArray[buttonIndex][DOWN_BUTTON] = ON;
             }
 
-            if(isOrderUp == ON && p_elevator->orderArray[buttonIndex][UP_BUTTON] == OFF){
+            if(isOrderUp && (upButton == OFF)){
                 p_elevator->orderArray[buttonIndex][UP_BUTTON] = ON;
             }
         }
@@ -113,6 +116,7 @@ void updateOrderArray(Elevator *p_elevator){
 
 void updateOrderLights(Elevator *p_elevator) {
     for(int buttonIndex = 0; buttonIndex < NUM_ORDER_BUTTONS; buttonIndex++) {
+        // The first 4 rows in the order array correspond to the order buttons on the elevator panel.
         if(buttonIndex < 4){
             int isOrderCabin = p_elevator->orderArray[buttonIndex][DOWN_BUTTON];
             setOrderButtonLamp(buttonIndex, BUTTON_CAB, isOrderCabin);
@@ -120,6 +124,8 @@ void updateOrderLights(Elevator *p_elevator) {
         else{
             int isOrderDown = p_elevator->orderArray[buttonIndex][DOWN_BUTTON];
             int isOrderUp = p_elevator->orderArray[buttonIndex][UP_BUTTON];
+            // The rest of the buttons correspond to the order buttons on the control panel.
+            // subtracting 4 to get the correct floor when accessing button value. 
             if((buttonIndex - 4) != 0){
             setOrderButtonLamp(buttonIndex - 4, BUTTON_HALL_DOWN, isOrderDown);
             }
@@ -132,14 +138,21 @@ void updateOrderLights(Elevator *p_elevator) {
 }
 
 int orderAbove(Elevator *p_elevator){
+    // incrementing by 1 to check the floors above the elevators currently floor
     for(int i = p_elevator->currentFloor + 1; i < NUM_FLOORS; i++) {
-        if(p_elevator->orderArray[i][UP_BUTTON] == ACTIVE_ORDER || p_elevator->orderArray[i][DOWN_BUTTON] == ACTIVE_ORDER) {
+        int activeUpButton = p_elevator->orderArray[i][UP_BUTTON];
+        int activeDownButton = p_elevator->orderArray[i][DOWN_BUTTON];
+
+        if(activeUpButton || activeDownButton) {
             return ACTIVE_ORDER;
         }
     }
-
+    // incrementing by 5 to check the floors above the elevators currently floor, and accessing right elements in orderArray.
     for(int i = p_elevator->currentFloor + 5; i < NUM_ORDER_BUTTONS; i++) {
-        if(p_elevator->orderArray[i][UP_BUTTON] == ACTIVE_ORDER || p_elevator->orderArray[i][DOWN_BUTTON] == ACTIVE_ORDER) {
+        int activeUpButton = p_elevator->orderArray[i][UP_BUTTON];
+        int activeDownButton = p_elevator->orderArray[i][DOWN_BUTTON];
+
+        if(activeUpButton || activeDownButton) {
             return ACTIVE_ORDER;
         }
 
@@ -149,13 +162,18 @@ int orderAbove(Elevator *p_elevator){
 
 int orderBelow(Elevator *p_elevator){
     for(int i = 0; i < p_elevator->currentFloor; i++) {
-        if(p_elevator->orderArray[i][DOWN_BUTTON] == ACTIVE_ORDER  || p_elevator->orderArray[i][UP_BUTTON] == ACTIVE_ORDER) {
+        int activeUpButton = p_elevator->orderArray[i][UP_BUTTON];
+        int activeDownButton = p_elevator->orderArray[i][DOWN_BUTTON];
+
+        if(activeDownButton || activeUpButton) {
             return ACTIVE_ORDER;
         }
     }
-
+    // incrementing by 4 access right elements in orderArray.
     for(int i = 4; i < p_elevator->currentFloor + 4; i++) {
-        if(p_elevator->orderArray[i][DOWN_BUTTON] == ACTIVE_ORDER  || p_elevator->orderArray[i][UP_BUTTON] == ACTIVE_ORDER) {
+        int activeUpButton = p_elevator->orderArray[i][UP_BUTTON];
+        int activeDownButton = p_elevator->orderArray[i][DOWN_BUTTON];
+        if(activeDownButton || activeUpButton) {
             return ACTIVE_ORDER;
         }
     }   
@@ -167,7 +185,7 @@ int orderOnCurrentFloor(Elevator *p_elevator){
     int hallUpButton = p_elevator->orderArray[p_elevator->currentFloor+4][UP_BUTTON];
     int hallDownButton = p_elevator->orderArray[p_elevator->currentFloor+4][DOWN_BUTTON];
 
-    if((cabinButton || hallDownButton || hallUpButton) == ACTIVE_ORDER) {
+    if(cabinButton || hallDownButton || hallUpButton) {
         return ACTIVE_ORDER;
     }
     return NO_ORDERS;
@@ -214,30 +232,30 @@ MotorDirection chooseDirection(Elevator *p_elevator) {
 
     switch(lastDirection){
         case DIRN_UP:
-            if((orderAbove(p_elevator) || orderOnCurrentFloor(p_elevator)) == ACTIVE_ORDER){
+            if(orderAbove(p_elevator) || orderOnCurrentFloor(p_elevator)){
                 return DIRN_UP;
             }
-            else if(orderBelow(p_elevator) == ACTIVE_ORDER){
+            else if(orderBelow(p_elevator)){
                 return DIRN_DOWN;
             }
             return DIRN_STOP;
         break;
 
         case DIRN_DOWN:
-            if(orderBelow(p_elevator) == ACTIVE_ORDER){
+            if(orderBelow(p_elevator)){
                 return DIRN_DOWN;
             }
-            else if(orderAbove(p_elevator) == ACTIVE_ORDER){
+            else if(orderAbove(p_elevator)){
                 return DIRN_UP;
             }
             return DIRN_STOP;
         break;
 
         case DIRN_STOP:
-            if((orderOnCurrentFloor(p_elevator) || orderAbove(p_elevator)) == ACTIVE_ORDER) {
+            if(orderOnCurrentFloor(p_elevator) || orderAbove(p_elevator)) {
                 return DIRN_UP;
             }
-            else if(orderBelow(p_elevator) == ACTIVE_ORDER){
+            else if(orderBelow(p_elevator)){
                 return DIRN_DOWN;
             }
             return DIRN_STOP;
