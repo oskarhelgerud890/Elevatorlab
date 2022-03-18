@@ -20,7 +20,7 @@ int main(){
     p_fsm->currentState = IDLE;  
     
     while(1){
-        FSMSpinonce(p_fsm, p_elevator, p_timer);
+        FSMSpinOnce(p_fsm, p_elevator, p_timer);
     }
 
     free(p_elevator);
